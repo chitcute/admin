@@ -1,0 +1,11 @@
+/build/
+
+
+lib/generated_plugin_registrant.dart
+.packages
+.flutter-plugins-dependencies
+.dart_tool/
+
+
+# Web related
+lib/generated_plugin_registrant.dart
