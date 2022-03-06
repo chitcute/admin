@@ -31,21 +31,18 @@ class CartView extends StatelessWidget {
                 child: Row(
                   children: [
                     ClipRRect(
-                      borderRadius: BorderRadius.only(
-                        topLeft: Radius.circular(10),
-                        bottomLeft: Radius.circular(10),
-                      ),
+                      borderRadius: BorderRadius.circular(10),
                       child: CachedNetworkImage(
                         imageUrl:
                             controller.getItem(controller.myCart[i].id).photo,
                         // "$baseUrl$itemUrl${controller.getItem(controller.myCart[i].id).photo}/get",
-                        width: 100,
+                        width: 80,
                         height: 100,
-                        fit: BoxFit.cover,
+                        fit: BoxFit.fitHeight,
                       ),
                     ),
                     SizedBox(
-                      width: 10,
+                      width: 20,
                     ),
                     Expanded(
                       child: Column(
@@ -179,13 +176,11 @@ class CartView extends StatelessWidget {
                                         index]); //SET TOWNSHIP OBJECT
                                   },
                                   child: SizedBox(
-                                    width: 120,
-                                    child: Center(
+                                    width:  120,
                                       child: Text(
                                         townshipList[index].name,
                                         style: TextStyle(fontSize: 12),
                                       ),
-                                    ),
                                   ),
                                 );
                               }),

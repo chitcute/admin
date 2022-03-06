@@ -8,7 +8,7 @@ part of 'hive_item.dart';
 
 class HiveItemAdapter extends TypeAdapter<HiveItem> {
   @override
-  final int typeId = 1;
+  final int typeId = 2;
 
   @override
   HiveItem read(BinaryReader reader) {
@@ -28,16 +28,17 @@ class HiveItemAdapter extends TypeAdapter<HiveItem> {
       discountprice: fields[9] as int,
       desc: fields[4] as String,
       color: fields[10] as String,
-      size: fields[11] as String,
-      star: fields[12] as int,
-      category: fields[13] as String,
+      sizePrice: (fields[11] as List).cast<SizePrice>(),
+      discountPercentage: (fields[12] as List).cast<DiscountPercentage>(),
+      star: fields[13] as int,
+      category: fields[14] as String,
     );
   }
 
   @override
   void write(BinaryWriter writer, HiveItem obj) {
     writer
-      ..writeByte(14)
+      ..writeByte(15)
       ..writeByte(0)
       ..write(obj.id)
       ..writeByte(1)
@@ -61,10 +62,12 @@ class HiveItemAdapter extends TypeAdapter<HiveItem> {
       ..writeByte(10)
       ..write(obj.color)
       ..writeByte(11)
-      ..write(obj.size)
+      ..write(obj.sizePrice)
       ..writeByte(12)
-      ..write(obj.star)
+      ..write(obj.discountPercentage)
       ..writeByte(13)
+      ..write(obj.star)
+      ..writeByte(14)
       ..write(obj.category);
   }
 

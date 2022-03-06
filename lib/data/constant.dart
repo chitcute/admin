@@ -22,4 +22,4 @@ const List<String> priceList = [
   'တစ်ထည်ဈေး (Ratail)',
   'လက်ကားဈေး (Wholesale)',
 ];
-const String boxName = "favouriteBOX";
+const String boxName = "favouritessBOX";

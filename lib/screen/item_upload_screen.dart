@@ -1,10 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:get/get.dart';
 import 'package:kozarni_ecome/controller/home_controller.dart';
 import 'package:kozarni_ecome/controller/upload_controller.dart';
 import 'package:kozarni_ecome/data/constant.dart';
 import 'package:kozarni_ecome/model/item.dart';
+import 'package:kozarni_ecome/widgets/discount_percentage_widget.dart';
+import 'package:kozarni_ecome/widgets/sizeprice_item_widget.dart';
 
 class UploadItem extends StatefulWidget {
   const UploadItem({Key? key}) : super(key: key);
@@ -19,23 +22,7 @@ class _UploadItemState extends State<UploadItem> {
 
   @override
   void dispose() {
-    homecontroller.setEditItem(
-      ItemModel(
-        photo: '',
-        photo2: '',
-        photo3: '',
-        brand: '',
-        deliverytime: '',
-        discountprice: 0,
-        name: '',
-        price: 0,
-        desc: '',
-        color: '',
-        size: '',
-        star: 0,
-        category: '',
-      ),
-    );
+    homecontroller.setEditItem(ItemModel.empty());
     super.dispose();
   }
 
@@ -44,7 +31,10 @@ class _UploadItemState extends State<UploadItem> {
     return Scaffold(
       backgroundColor: scaffoldBackground,
       appBar: AppBar(
-        title: Text("Chit Cute Kids & Baby", style: TextStyle(color: Colors.black, fontSize: 14),),
+        title: Text(
+          "Chit Cute Kids & Baby",
+          style: TextStyle(color: Colors.black, fontSize: 14),
+        ),
         elevation: 5,
         backgroundColor: detailBackgroundColor,
         leading: IconButton(
@@ -156,9 +146,6 @@ class _UploadItemState extends State<UploadItem> {
               ),
             ),
 
-
-
-
             Padding(
               padding: EdgeInsets.only(
                 top: 20,
@@ -214,7 +201,6 @@ class _UploadItemState extends State<UploadItem> {
               ),
             ),
 
-
             Padding(
               padding: EdgeInsets.only(
                 top: 20,
@@ -231,8 +217,6 @@ class _UploadItemState extends State<UploadItem> {
                 ),
               ),
             ),
-
-
 
             Padding(
               padding: EdgeInsets.only(
@@ -265,21 +249,58 @@ class _UploadItemState extends State<UploadItem> {
                 ),
               ),
             ),
+            //Add SizePrice Button
             Padding(
               padding: EdgeInsets.only(
                 top: 20,
                 left: 20,
                 right: 20,
               ),
-              child: TextFormField(
-                controller: controller.sizeController,
-                validator: controller.validator,
-                decoration: InputDecoration(
-                  hintText: 'အရွယ်အစား',
-                  border: OutlineInputBorder(),
-                ),
-              ),
+              child: SizedBox(
+                  height: 50,
+                  width: 100,
+                  child: Row(children: [
+                    //Add Icon
+                    IconButton(
+                      onPressed: () => controller.addSizePrice(),
+                      icon: Icon(FontAwesomeIcons.plusCircle,
+                          color: Colors.black),
+                    ),
+                    //Text
+                    Text("Add Size"),
+                  ])),
             ),
+            //SizePrice Widget if list is not empty
+            Obx(() => controller.sizePriceMap.isNotEmpty
+                ? sizePriceListWidget()
+                : const SizedBox(height: 0)),
+            //
+            //Add Discount Percentage Button
+            Padding(
+              padding: EdgeInsets.only(
+                top: 20,
+                left: 20,
+                right: 20,
+              ),
+              child: SizedBox(
+                  height: 50,
+                  width: 100,
+                  child: Row(children: [
+                    //Add Icon
+                    IconButton(
+                      onPressed: () => controller.addDiscountPercentage(),
+                      icon: Icon(FontAwesomeIcons.plusCircle,
+                          color: Colors.black),
+                    ),
+                    //Text
+                    Text("Add Discount Percentage"),
+                  ])),
+            ),
+            //SizePrice Widget if list is not empty
+            Obx(() => controller.discountPercentageMap.isNotEmpty
+                ? discountPercentageListWidget()
+                : const SizedBox(height: 0)),
+            //
             Padding(
               padding: EdgeInsets.only(
                 top: 20,
@@ -322,7 +343,7 @@ class _UploadItemState extends State<UploadItem> {
                       ? CircularProgressIndicator(
                           color: scaffoldBackground,
                         )
-                      : Text(homecontroller.editItem.value.id != null
+                      : Text(homecontroller.editItem.value.id.isNotEmpty
                           ? "Edit"
                           : "upload"),
                 ),
@@ -332,5 +353,52 @@ class _UploadItemState extends State<UploadItem> {
         ),
       ),
     );
+  }
+
+//Size Price List Widget
+  Widget sizePriceListWidget() {
+    return Obx(() {
+      return AnimatedContainer(
+          height: (controller.sizePriceMap.length * 50) + 20,
+          curve: Curves.easeInOut,
+          duration: const Duration(milliseconds: 600),
+          padding: const EdgeInsets.only(
+            left: 20,
+            right: 20,
+          ),
+          child: ListView(
+            children: controller.sizePriceMap.entries.map((map) {
+              return SizePriceItemWidget(
+                key: ValueKey(map.key),
+                id: map.key,
+                sizeText: map.value.sizeText,
+                price: "${map.value.price}",
+              );
+            }).toList(),
+          ));
+    });
+  }
+
+  discountPercentageListWidget() {
+    return Obx(() {
+      return AnimatedContainer(
+          height: (controller.discountPercentageMap.length * 50) + 20,
+          curve: Curves.easeInOut,
+          duration: const Duration(milliseconds: 600),
+          padding: const EdgeInsets.only(
+            left: 20,
+            right: 20,
+          ),
+          child: ListView(
+            children: controller.discountPercentageMap.entries.map((map) {
+              return DiscountPercentageWidget(
+                key: ValueKey(map.key),
+                id: map.key,
+                discountText: map.value.discountText,
+                percentage: "${map.value.percentage}",
+              );
+            }).toList(),
+          ));
+    });
   }
 }

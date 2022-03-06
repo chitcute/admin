@@ -29,9 +29,10 @@ class _ManageItemState extends State<ManageItem> {
     return Scaffold(
       backgroundColor: scaffoldBackground,
       appBar: AppBar(
-        title: Text("Chit Cute Kids & Baby",
-          style: TextStyle(color: Colors.black,
-              fontSize: 14),),
+        title: Text(
+          "Chit Cute Kids & Baby",
+          style: TextStyle(color: Colors.black, fontSize: 14),
+        ),
         elevation: 5,
         backgroundColor: detailBackgroundColor,
         leading: IconButton(
@@ -78,8 +79,8 @@ class _ManageItemState extends State<ManageItem> {
                         await _(true);
                         await mangeController.delete(
                             homeController.isSearch.value
-                                ? homeController.searchitems[i].id!
-                                : homeController.items[i].id!);
+                                ? homeController.searchitems[i].id
+                                : homeController.items[i].id);
                         setState(() {});
                       },
                       title: 'Delete',
@@ -146,7 +147,7 @@ class _ManageItemState extends State<ManageItem> {
                                 SizedBox(
                                   height: 5,
                                 ),
-                                Text(
+                                /* Text(
                                   homeController.isSearch.value
                                       ? homeController.searchitems[i].size
                                       : homeController.items[i].size
@@ -159,7 +160,7 @@ class _ManageItemState extends State<ManageItem> {
                                     wordSpacing: 1,
 
                                   ),
-                                ),
+                                ),*/
                                 SizedBox(
                                   height: 5,
                                 ),

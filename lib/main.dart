@@ -7,7 +7,6 @@ import 'package:kozarni_ecome/controller/home_controller.dart';
 import 'package:kozarni_ecome/data/constant.dart';
 import 'package:kozarni_ecome/model/hive_item.dart';
 import 'package:kozarni_ecome/routes/routes.dart';
-import 'package:kozarni_ecome/screen/home_screen.dart';
 
 Future<void> _firebaseMessagingBackgroundHandler(RemoteMessage message) async {
   await Firebase.initializeApp();

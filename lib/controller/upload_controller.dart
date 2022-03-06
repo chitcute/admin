@@ -3,7 +3,9 @@ import 'package:get/get.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:kozarni_ecome/controller/home_controller.dart';
 import 'package:kozarni_ecome/data/constant.dart';
+import 'package:kozarni_ecome/model/discount_percentage.dart';
 import 'package:kozarni_ecome/model/item.dart';
+import 'package:kozarni_ecome/model/size_price.dart';
 import 'package:kozarni_ecome/service/api.dart';
 import 'package:kozarni_ecome/service/database.dart';
 
@@ -16,7 +18,7 @@ class UploadController extends GetxController {
   void onInit() {
     super.onInit();
 
-    if (_homeController.editItem.value.id != null) {
+    if (_homeController.editItem.value.id.isNotEmpty) {
       photoController.text = _homeController.editItem.value.photo;
       photo2Controller.text = _homeController.editItem.value.photo2;
       photo3Controller.text = _homeController.editItem.value.photo3;
@@ -24,12 +26,22 @@ class UploadController extends GetxController {
       deliverytimeController.text = _homeController.editItem.value.deliverytime;
       brandController.text = _homeController.editItem.value.brand;
       priceController.text = _homeController.editItem.value.price.toString();
-      discountpriceController.text = _homeController.editItem.value.discountprice.toString();
+      discountpriceController.text =
+          _homeController.editItem.value.discountprice.toString();
       colorController.text = _homeController.editItem.value.color;
-      sizeController.text = _homeController.editItem.value.size;
       starController.text = _homeController.editItem.value.star.toString();
       categoryController.text = _homeController.editItem.value.category;
       desc.text = _homeController.editItem.value.desc;
+      sizePriceMap.value = Map.fromIterable(
+        _homeController.editItem.value.sizePrice,
+        key: (element) => element.id,
+        value: (element) => element,
+      );
+      discountPercentageMap.value = Map.fromIterable(
+        _homeController.editItem.value.discountPercentage,
+        key: (element) => element.id,
+        value: (element) => element,
+      );
     }
   }
 
@@ -54,6 +66,54 @@ class UploadController extends GetxController {
   final TextEditingController sizeController = TextEditingController();
   final TextEditingController starController = TextEditingController();
   final TextEditingController categoryController = TextEditingController();
+  RxMap<String, SizePrice> sizePriceMap = <String, SizePrice>{}.obs;
+  RxMap<String, DiscountPercentage> discountPercentageMap =
+      <String, DiscountPercentage>{}.obs;
+
+  //Add SIZEPRICE object into List
+  void addSizePrice() {
+    final obj = SizePrice.empty();
+    sizePriceMap.putIfAbsent(obj.id, () => obj);
+  }
+
+  //Change SizePrice's sizeText
+  void changeSizePriceText(String value, String id) {
+    sizePriceMap[id] = sizePriceMap[id]!.copyWith(sizeText: value);
+  }
+
+  //Change SizePrice's price
+  void changeSizePricePrice(String value, String id) {
+    sizePriceMap[id] = sizePriceMap[id]!.copyWith(price: value.isEmpty ? 0 : int.parse(value));
+  }
+
+  //Delete SizePrice
+  void deleteSizePrice(String id) {
+    sizePriceMap.remove(id);
+  }
+
+  //Add DiscountPercentage object into List
+  void addDiscountPercentage() {
+    final obj = DiscountPercentage.empty();
+    discountPercentageMap.putIfAbsent(obj.id, () => obj);
+  }
+
+  //Change DiscountPercentage's discounttext
+  void changeDiscountText(String value, String id) {
+    discountPercentageMap[id] =
+        discountPercentageMap[id]!.copyWith(discountText: value);
+  }
+
+  //Change discountPercentage's percentage
+  void changePercentage(String value, String id) {
+    discountPercentageMap[id] = discountPercentageMap[id]!.copyWith(
+      percentage: value.isEmpty ? 0 : int.parse(value),
+    );
+  }
+
+  //Delete SizePrice
+  void deleteDiscountPercentage(String id) {
+    discountPercentageMap.remove(id);
+  }
 
   Future<void> pickImage() async {
     try {
@@ -85,47 +145,50 @@ class UploadController extends GetxController {
         //       "${dateTime.year}${dateTime.month}${dateTime.day}${dateTime.hour}${dateTime.minute}${dateTime.second}",
         // );
 
-        if (_homeController.editItem.value.id != null) {
+        if (_homeController.editItem.value.id.isNotEmpty) {
           await _database.update(
             itemCollection,
-            path: _homeController.editItem.value.id!,
+            path: _homeController.editItem.value.id,
             data: _homeController.editItem.value
                 .copyWith(
-                  newPhoto: photoController.text,
-                  newPhoto2: photo2Controller.text,
-                  newPhoto3: photo3Controller.text,
-                  newDeliveryTime: deliverytimeController.text,
-                  newBrand: brandController.text,
-                  newName: nameController.text,
-                  newColor: colorController.text,
-                  newPrice: int.parse(priceController.text),
-                  newDiscountPrice: int.parse(discountpriceController.text),
-                  newSize: sizeController.text,
-                  newStar: int.parse(starController.text),
-                  des: desc.text,
-                  newCategory: categoryController.text,
+                  photo: photoController.text,
+                  photo2: photo2Controller.text,
+                  photo3: photo3Controller.text,
+                  deliverytime: deliverytimeController.text,
+                  brand: brandController.text,
+                  name: nameController.text,
+                  color: colorController.text,
+                  price: int.parse(priceController.text),
+                  discountprice: int.parse(discountpriceController.text),
+                  star: int.parse(starController.text),
+                  desc: desc.text,
+                  category: categoryController.text,
+                  sizePrice: sizePriceMap.entries.map((e) => e.value).toList(),
+                  discountPercentage: discountPercentageMap.entries
+                      .map((e) => e.value)
+                      .toList(),
                 )
                 .toJson(),
           );
         } else {
           await _database.write(
             itemCollection,
-            data: ItemModel(
-              photo: photoController.text,
-              photo2: photo2Controller.text,
-              photo3: photo3Controller.text,
-              // "${dateTime.year}${dateTime.month}${dateTime.day}${dateTime.hour}${dateTime.minute}${dateTime.second}",
-              name: nameController.text,
-              brand: brandController.text,
-              deliverytime: deliverytimeController.text,
-              desc: desc.text,
-              price: int.parse(priceController.text),
-              discountprice: int.parse(discountpriceController.text),
-              color: colorController.text,
-              size: sizeController.text,
-              star: int.parse(starController.text),
-              category: categoryController.text,
-            ).toJson(),
+            data: ItemModel.empty()
+                .copyWith(
+                  photo: photoController.text,
+                  photo2: photo2Controller.text,
+                  photo3: photo3Controller.text,
+                  deliverytime: deliverytimeController.text,
+                  brand: brandController.text,
+                  name: nameController.text,
+                  color: colorController.text,
+                  price: int.parse(priceController.text),
+                  discountprice: int.parse(discountpriceController.text),
+                  star: int.parse(starController.text),
+                  desc: desc.text,
+                  category: categoryController.text,
+                )
+                .toJson(),
           );
         }
         isUploading.value = false;

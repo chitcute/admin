@@ -11,6 +11,7 @@ import 'package:kozarni_ecome/data/enum.dart';
 import 'package:kozarni_ecome/model/hive_item.dart';
 import 'package:kozarni_ecome/model/item.dart';
 import 'package:kozarni_ecome/model/purchase.dart';
+import 'package:kozarni_ecome/model/size_price.dart';
 import 'package:kozarni_ecome/model/township.dart';
 import 'package:kozarni_ecome/model/user.dart';
 import 'package:kozarni_ecome/service/api.dart';
@@ -96,49 +97,38 @@ class HomeController extends GetxController {
         return element;
       }).toList();
     } catch (e) {
-      myCart.add(PurchaseItem(itemModel.id!, 1, size, color, price));
+      myCart.add(PurchaseItem(itemModel.id, 1, size, color, price));
     }
+  }
+
+  //Get MainPrice
+  double getMainPrice(int sizePrice, String discountText, int percentage) {
+    int discount = 0;
+    try {
+      discount = int.parse(discountText.split(" ").first);
+    } catch (e) {
+      discount = 0;
+      //TODO: TO SHOW it was wrong when upload discountText when admin upload.
+    }
+    double discountPrice = 0;
+    if(discount != 0){
+      final originalPrice = sizePrice * discount;
+    discountPrice = originalPrice - (originalPrice * (percentage / 100));
+    }
+    return discountPrice;
   }
 
   final RxList<ItemModel> items = <ItemModel>[].obs;
 
   final RxList<ItemModel> searchitems = <ItemModel>[].obs;
 
-  final Rx<ItemModel> selectedItem = ItemModel(
-          photo: '',
-          photo2: '',
-          photo3: '',
-          deliverytime: '',
-          brand: '',
-          discountprice: 0,
-          name: '',
-          price: 0,
-          color: '',
-          desc: '',
-          size: '',
-          star: 0,
-          category: '')
-      .obs;
+  final Rx<ItemModel> selectedItem = ItemModel.empty().obs;
 
   void setSelectedItem(ItemModel item) {
     selectedItem.value = item;
   }
 
-  final Rx<ItemModel> editItem = ItemModel(
-    photo: '',
-    photo2: '',
-    photo3: '',
-    deliverytime: '',
-    brand: '',
-    discountprice: 0,
-    name: '',
-    price: 0,
-    color: '',
-    desc: '',
-    size: '',
-    star: 0,
-    category: '',
-  ).obs;
+  final Rx<ItemModel> editItem = ItemModel.empty().obs;
 
   void setEditItem(ItemModel itemModel) {
     editItem.value = itemModel;
@@ -148,20 +138,7 @@ class HomeController extends GetxController {
     try {
       return items.firstWhere((e) => e.id == id);
     } catch (e) {
-      return ItemModel(
-          photo: '',
-          photo2: '',
-          photo3: '',
-          deliverytime: '',
-          brand: '',
-          discountprice: 0,
-          name: '',
-          price: 0,
-          color: '',
-          desc: '',
-          size: '',
-          star: 0,
-          category: '');
+      return ItemModel.empty();
     }
   }
 
@@ -262,7 +239,7 @@ class HomeController extends GetxController {
   //Get HiveItem
   HiveItem changeHiveItem(ItemModel model) {
     return HiveItem(
-      id: model.id ?? "",
+      id: model.id,
       photo: model.photo,
       photo2: model.photo2,
       photo3: model.photo3,
@@ -273,7 +250,8 @@ class HomeController extends GetxController {
       discountprice: model.discountprice,
       desc: model.desc,
       color: model.color,
-      size: model.size,
+      sizePrice: model.sizePrice,
+      discountPercentage: model.discountPercentage,
       star: model.star,
       category: model.category,
     );
@@ -293,12 +271,12 @@ class HomeController extends GetxController {
       discountprice: model.discountprice,
       desc: model.desc,
       color: model.color,
-      size: model.size,
+      sizePrice: model.sizePrice,
+      discountPercentage: model.discountPercentage,
       star: model.star,
       category: model.category,
     );
   }
-
 
   final RxList<PurchaseModel> _purchcases = <PurchaseModel>[].obs; ////
 
@@ -468,7 +446,7 @@ class HomeController extends GetxController {
     } // SharedPreference to Stroe
     _database.watch(itemCollection).listen((event) {
       items.value =
-          event.docs.map((e) => ItemModel.fromJson(e.data(), e.id)).toList();
+          event.docs.map((e) => ItemModel.fromJson(e.data())).toList();
     });
     _auth.onAuthChange().listen((_) async {
       user.value = AuthUser(user: _);

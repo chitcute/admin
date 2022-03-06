@@ -274,7 +274,7 @@ Widget prePayWidget(BuildContext context) {
             ),
           )),
           onPressed: () => getBankSlip(controller),
-          child: Text("Choose KBZ Pay / KBZ / AYA  Screenshot"),
+          child: Text("Choose Bank Slip"),
       ),
       //Image String
       Obx(() => SizedBox(
