@@ -9,6 +9,7 @@ import 'package:kozarni_ecome/data/constant.dart';
 import 'package:get/get.dart';
 import 'package:kozarni_ecome/expaned_widget.dart';
 import 'package:kozarni_ecome/model/hive_item.dart';
+import 'package:url_launcher/url_launcher.dart';
 import 'home_screen.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:custom_full_image_screen/custom_full_image_screen.dart';
@@ -276,14 +277,25 @@ class DetailScreen extends StatelessWidget {
                             SizedBox(
                               height: 5,
                             ),
-                            Text(
-                              "     09 44 33 99 751",
-                              style: TextStyle(
-                                fontSize: 14,
-                                fontWeight: FontWeight.bold,
-                                color: Colors.black,
+
+                            Expanded(
+                              child: TextButton(
+                                onPressed: () => launch("tel://09443399751"),
+                                child: Text(
+                                  "     09 44 33 99 751",
+                                  style: TextStyle(
+                                    fontSize: 14,
+                                    fontWeight: FontWeight.bold,
+                                    color: Colors.black,
+                                  ),
+                                ),
+
+                                ),
                               ),
-                            ),
+
+
+
+
                           ],
                         ),
                       ],
