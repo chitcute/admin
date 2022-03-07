@@ -300,7 +300,7 @@ class DetailScreen extends StatelessWidget {
                           imageUrl: controller.selectedItem.value.photo,
                           imageBorderRadius: 7,
                           imageWidth: 150,
-                          imageHeight: 200,
+                          imageHeight: 150,
                           imageFit: BoxFit.cover,
                           imageDetailsHeight: double.infinity,
                           imageDetailsWidth: double.infinity,
@@ -327,7 +327,7 @@ class DetailScreen extends StatelessWidget {
                                 imageUrl: controller.selectedItem.value.photo2,
                                 imageBorderRadius: 7,
                                 imageWidth: 150,
-                                imageHeight: 200,
+                                imageHeight: 150,
                                 imageFit: BoxFit.cover,
                                 imageDetailsHeight: double.infinity,
                                 imageDetailsWidth: double.infinity,
@@ -584,7 +584,7 @@ class _AddToCartState extends State<AddToCart> {
                 SizedBox(width: 70),
 
                 SizedBox(
-                  width: 70,
+                  width: 120,
                   child: DropdownButtonFormField(
                     value: colorValue,
                     hint: Text(

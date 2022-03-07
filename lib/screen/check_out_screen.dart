@@ -386,16 +386,7 @@ class _FormWidgetState extends State<FormWidget> {
                 ),
               ),
             ),
-            Padding(
-              padding: const EdgeInsets.only(top: 20, right: 20, left: 20),
-              child: TextFormField(
-                controller: emailController,
-                decoration: InputDecoration(
-                  border: OutlineInputBorder(),
-                  hintText: 'မှတ်ချက်',
-                ),
-              ),
-            ),
+
             Padding(
               padding: const EdgeInsets.only(top: 20, right: 20, left: 20),
               child: TextFormField(
@@ -421,6 +412,18 @@ class _FormWidgetState extends State<FormWidget> {
                 ),
               ),
             ),
+
+            Padding(
+              padding: const EdgeInsets.only(top: 20, right: 20, left: 20),
+              child: TextFormField(
+                controller: emailController,
+                decoration: InputDecoration(
+                  border: OutlineInputBorder(),
+                  hintText: 'မှတ်ချက်',
+                ),
+              ),
+            ),
+
             Container(
               width: double.infinity,
               height: 50,
