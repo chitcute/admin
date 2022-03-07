@@ -5,6 +5,7 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:get/get.dart';
 import 'package:kozarni_ecome/controller/home_controller.dart';
 import 'package:kozarni_ecome/data/constant.dart';
+import 'package:kozarni_ecome/routes/routes.dart';
 import 'package:kozarni_ecome/screen/view/cart.dart';
 import 'package:kozarni_ecome/screen/view/favourite.dart';
 import 'package:kozarni_ecome/screen/view/hot.dart';
@@ -112,6 +113,27 @@ class _HomeScreenState extends State<HomeScreen> {
         ),
         // centerTitle: true,
         actions: [
+          ElevatedButton(
+            style: ButtonStyle(
+              alignment: Alignment.center,
+              backgroundColor: MaterialStateProperty.all(Colors.white),
+              elevation: MaterialStateProperty.resolveWith<double>(
+                // As you said you dont need elevation. I'm returning 0 in both case
+                (Set<MaterialState> states) {
+                  if (states.contains(MaterialState.disabled)) {
+                    return 0;
+                  }
+                  return 0; // Defer to the widget's default.
+                },
+              ),
+            ),
+            onPressed: () => Get.toNamed(searchScreen),
+            child: FaIcon(
+              FontAwesomeIcons.search,
+              color: Colors.black,
+              size: 20,
+            ),
+          ),
           // InkWell(
           //   onTap: () {
           //     ///TODO

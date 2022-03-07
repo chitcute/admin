@@ -5,6 +5,7 @@ import 'package:kozarni_ecome/controller/home_controller.dart';
 import 'package:kozarni_ecome/data/constant.dart';
 import 'package:kozarni_ecome/model/purchase.dart';
 import 'package:kozarni_ecome/model/township.dart';
+import 'package:photo_view/photo_view.dart';
 
 class PurchaseScreen extends StatelessWidget {
   const PurchaseScreen({Key? key}) : super(key: key);
@@ -18,7 +19,7 @@ class PurchaseScreen extends StatelessWidget {
         backgroundColor: scaffoldBackground,
         appBar: AppBar(
           title: Text(
-            "𝐂𝐢𝐧𝐝𝐲 Branded Export Fashion",
+            "     Chit Cute Kids & Baby",
             style: TextStyle(color: Colors.black, fontSize: 14),
           ),
           elevation: 5,
@@ -99,58 +100,127 @@ class PurchaseScreen extends StatelessWidget {
         Township town = controller.purchcasesPrePay()[i].township;
         final shipping = town.fee;
         final townName = town.name;
-        return ListTile(
-          title: Text(
-              "${controller.purchcasesPrePay()[i].name} 0${controller.purchcasesPrePay()[i].phone}"),
-          subtitle: Text(
-              "${controller.purchcasesPrePay()[i].dateTime?.day}/${controller.purchcasesPrePay()[i].dateTime?.month}/${controller.purchcasesPrePay()[i].dateTime?.year}"),
-          trailing: !(controller.purchcasesPrePay()[i].bankSlipImage == null)
-              ? InkWell(
-                  onTap: () {
-                    int total = 0;
-                    for (var item in controller.purchcasesPrePay()[i].items) {
-                      total += int.parse(item.toString().split(',').last) *
-                          int.parse(item.toString().split(',')[3]);
-                    }
+        return AspectRatio(
+          aspectRatio: 16 / 4,
+          child: Card(
+            elevation: 5,
+            child: Row(
+                crossAxisAlignment: CrossAxisAlignment.center,
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  //Name,Phone and Date ListTile
+                  Flexible(
+                    flex: 2,
+                    child: ListTile(
+                      onTap: () {
+                        int total = 0;
+                        for (var item
+                            in controller.purchcasesPrePay()[i].items) {
+                          total += int.parse(item.toString().split(',').last) *
+                              int.parse(item.toString().split(',')[3]);
+                        }
 
-                    print(controller.purchcasesPrePay()[i].items.length);
-                    Get.defaultDialog(
-                      title: "Customer ၀ယ်ယူခဲ့သော အချက်အလက်များ",
-                      titleStyle: TextStyle(fontSize: 12),
-                      radius: 5,
-                      content: purchaseDialogBox(
-                          i: i,
-                          total: total,
-                          shipping: shipping,
-                          township: townName,
-                          list: controller.purchcasesPrePay()),
-                    );
-                  },
-                  child: AspectRatio(
-                    aspectRatio: 1,
-                    child: CachedNetworkImage(
-                      imageUrl:
-                          controller.purchcasesPrePay()[i].bankSlipImage ?? "",
-                      fit: BoxFit.fill,
-                      progressIndicatorBuilder: (context, url, status) {
-                        return Center(
-                          child: SizedBox(
-                            width: 50,
-                            height: 50,
-                            child: CircularProgressIndicator(
-                              value: status.progress,
-                            ),
-                          ),
+                        print(controller.purchcasesPrePay()[i].items.length);
+                        Get.defaultDialog(
+                          title: "Customer ၀ယ်ယူခဲ့သော အချက်အလက်များ",
+                          titleStyle: TextStyle(fontSize: 12),
+                          radius: 5,
+                          content: purchaseDialogBox(
+                              i: i,
+                              total: total,
+                              shipping: shipping,
+                              township: townName,
+                              list: controller.purchcasesPrePay()),
                         );
                       },
-                      errorWidget: (context, url, error) =>
-                          const Icon(Icons.error),
+                      title: Text(
+                          "${controller.purchcasesPrePay()[i].name} 0${controller.purchcasesPrePay()[i].phone}"),
+                      subtitle: Text(
+                          "${controller.purchcasesPrePay()[i].dateTime?.day}/${controller.purchcasesPrePay()[i].dateTime?.month}/${controller.purchcasesPrePay()[i].dateTime?.year}"),
                     ),
                   ),
-                )
-              : SizedBox(height: 0, width: 0),
+                  //PhotoView
+                  Flexible(
+                    flex: 1,
+                    child: InkWell(
+                      onTap: () {
+                        //Show Dialog PhotoView
+                        showDialog(
+                          //barrierColor: Colors.white.withOpacity(0),
+                          context: Get.context!,
+                          builder: (context) {
+                            return photoViewer(
+                                heroTags: controller
+                                        .purchcasesPrePay()[i]
+                                        .bankSlipImage ??
+                                    "");
+                          },
+                        );
+                      },
+                      child: Hero(
+                        tag: controller.purchcasesPrePay()[i].bankSlipImage ??
+                            "",
+                        child: CachedNetworkImage(
+                          imageUrl:
+                              controller.purchcasesPrePay()[i].bankSlipImage ??
+                                  "",
+                          fit: BoxFit.fill,
+                          progressIndicatorBuilder: (context, url, status) {
+                            return Center(
+                              child: SizedBox(
+                                width: 50,
+                                height: 50,
+                                child: CircularProgressIndicator(
+                                  value: status.progress,
+                                ),
+                              ),
+                            );
+                          },
+                          errorWidget: (context, url, error) =>
+                              const Icon(Icons.error),
+                        ),
+                      ),
+                    ),
+                  ),
+                ]),
+          ),
         );
       },
+    );
+  }
+
+  //PhotoViewer
+  Widget photoViewer({required String heroTags}) {
+    return Center(
+      child: AspectRatio(
+        aspectRatio: 16 / 9,
+        child: PhotoView(
+          imageProvider: NetworkImage(heroTags),
+          loadingBuilder: (context, progress) => Center(
+            child: Container(
+              width: 20.0,
+              height: 20.0,
+              child: const CircularProgressIndicator(),
+            ),
+          ),
+          backgroundDecoration:
+              BoxDecoration(color: Colors.white.withOpacity(0)),
+          gaplessPlayback: false,
+          //customSize: MediaQuery.of(context).size,
+          heroAttributes: PhotoViewHeroAttributes(
+            tag: heroTags,
+            transitionOnUserGestures: true,
+          ),
+          //scaleStateChangedCallback: this.onScaleStateChanged,
+          enableRotation: true,
+          //controller:  controller,
+          minScale: PhotoViewComputedScale.contained * 0.8,
+          maxScale: PhotoViewComputedScale.covered * 3,
+          initialScale: PhotoViewComputedScale.contained,
+          basePosition: Alignment.center,
+          //scaleStateCycle: scaleStateCycle
+        ),
+      ),
     );
   }
 
@@ -299,12 +369,12 @@ class PurchaseScreen extends StatelessWidget {
           children: [
             Text(
               "ပို့ဆောင်ရမည့်မြို့နယ် -",
-              style: TextStyle(fontSize: 14),
+              style: TextStyle(fontSize: 12),
             ),
             SizedBox(width: 10),
             Text(
               township,
-              style: TextStyle(fontSize: 14, fontWeight: FontWeight.bold),
+              style: TextStyle(fontSize: 12, fontWeight: FontWeight.bold),
             ),
           ],
         ),

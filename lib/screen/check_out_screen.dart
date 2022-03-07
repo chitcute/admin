@@ -58,7 +58,7 @@ class _CheckOutScreenState extends State<CheckOutScreen> {
                 )),
             child: Stepper(
               currentStep: controller.checkOutStep.value,
-              controlsBuilder: (context,{onStepCancel,onStepContinue}) {
+              controlsBuilder: (context, {onStepCancel, onStepContinue}) {
                 return controller.checkOutStep.value == 1
                     ? ElevatedButton(
                         onPressed: () async {
@@ -83,11 +83,10 @@ class _CheckOutScreenState extends State<CheckOutScreen> {
                         },
                         child: Center(
                           child: Text(
-                            "Submit Order",
+                            "Order တင်မည်",
                           ),
                         ),
                       )
-
                     : SizedBox(height: 0, width: 0);
               },
               onStepTapped: (index) => controller.changeStepIndex(index),
@@ -104,7 +103,7 @@ class _CheckOutScreenState extends State<CheckOutScreen> {
                 Step(
                   isActive: controller.checkOutStep >= 1,
                   state: StepState.indexed,
-                  title: Text("Payment"),
+                  title: Text("Order Confirmation"),
                   content: controller.paymentOptions == PaymentOptions.PrePay
                       ? prePayWidget(context)
                       : SizedBox(height: 0, width: 0),
@@ -114,8 +113,6 @@ class _CheckOutScreenState extends State<CheckOutScreen> {
           );
         },
       ),
-
-
     );
   }
 }
@@ -125,200 +122,193 @@ Widget prePayWidget(BuildContext context) {
   final size = MediaQuery.of(context).size;
   HomeController controller = Get.find();
   return SizedBox(
-    height: 500,
+    height: 400,
     child: ListView(
-        children: [
-          SizedBox(height: 20),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.start,
-            children: [
-              Column(
-                children: [
-                  Image.asset(
-                    "assets/kpay.png",
-                    width: 112,
-                    height: 63,
-                  ),
-                  SizedBox(height: 5),
-                ],
-              ),
-
-              SizedBox(width: 20),
-
-              Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                mainAxisAlignment: MainAxisAlignment.start,
-                children: [
-                  Text(
-                    " U Thant Zin Win (KBZ Pay)",
-                    style: TextStyle(
-                      fontSize: 16,
-                    ),
-                  ),
-                  TextButton(
-                    style: TextButton.styleFrom(
-                      primary: Colors.black,
-                      textStyle: const TextStyle(fontSize: 16),
-                    ),
-                    onPressed: () {Clipboard.setData(new ClipboardData(text: "09443399751")).then((_){
-                      ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text("KBZ Pay Account နံပါတ် 09 44 33 99 751 ကို Copy ကူး လိုက်ပါပြီ")));
-                    });},
-                    child: const Text('09 44 33 99 751'),
-                  ),
-                ],
-              ),
-
-            ],
-          ),
-
-          SizedBox(height: 30),
-
-          Row(
-            mainAxisAlignment: MainAxisAlignment.start,
-            children: [
-              Column(
-                children: [
-                  Image.asset(
-                    "assets/kbz.png",
-                    width: 112,
-                    height: 63,
-                  ),
-                  SizedBox(height: 5),
-                ],
-              ),
-
-              SizedBox(width: 20),
-
-              Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                mainAxisAlignment: MainAxisAlignment.start,
-                children: [
-                  Text(
-                    " U Thant Zin Win (KBZ Bank)",
-                    style: TextStyle(
-                      fontSize: 16,
-                    ),
-                  ),
-                  TextButton(
-                    style: TextButton.styleFrom(
-                      primary: Colors.black,
-                      textStyle: const TextStyle(fontSize: 16),
-                    ),
-                    onPressed: () {Clipboard.setData(new ClipboardData(text: "23030206000037201")).then((_){
-                      ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text("KBZ Bank Account နံပါတ် 230 30 206 0000 37 201 ကို Copy ကူး လိုက်ပါပြီ")));
-                    });},
-                    child: const Text('230 30 206 0000 37 201'),
-                  ),
-                ],
-              ),
-
-            ],
-          ),
-
-          SizedBox(height: 30),
-
-          Row(
-            mainAxisAlignment: MainAxisAlignment.start,
-            children: [
-              Column(
-                children: [
-                  Image.asset(
-                    "assets/aya.png",
-                    width: 112,
-                    height: 63,
-                  ),
-                  SizedBox(height: 5),
-                ],
-              ),
-
-              SizedBox(width: 20),
-
-              Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                mainAxisAlignment: MainAxisAlignment.start,
-                children: [
-                  Text(
-                    "  U Thant Zin Win (AYA Bank)",
-                    style: TextStyle(
-                      fontSize: 16,
-                    ),
-                  ),
-                  TextButton(
-                    style: TextButton.styleFrom(
-                      primary: Colors.black,
-                      textStyle: const TextStyle(fontSize: 16),
-                    ),
-                    onPressed: () {Clipboard.setData(new ClipboardData(text: "20022820660")).then((_){
-                      ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text("AYA Bank Account နံပါတ်  200 22 820 660 ကို Copy ကူး လိုက်ပါပြီ")));
-                    });},
-                    child: const Text('200 22 820 660'),
-                  ),
-                ],
-              ),
-
-            ],
-          ),
-
-          SizedBox(height: 100),
-
-
-          Column(
-            children: [
-      //Button
-      OutlinedButton(
-          style: ElevatedButton.styleFrom(
-              shape: RoundedRectangleBorder(
-            side: BorderSide(color: Colors.black, width: 2),
-            borderRadius: BorderRadius.all(
-              Radius.circular(20),
+      children: [
+        SizedBox(height: 20),
+        Row(
+          mainAxisAlignment: MainAxisAlignment.start,
+          children: [
+            Column(
+              children: [
+                Image.asset(
+                  "assets/kpay.png",
+                  width: 112,
+                  height: 63,
+                ),
+                SizedBox(height: 5),
+              ],
             ),
-          )),
-          onPressed: () => getBankSlip(controller),
-          child: Text("Choose Bank Slip"),
-      ),
-      //Image String
-      Obx(() => SizedBox(
-              height: 50,
-              width: size.width,
-              child: Row(children: [
-                SizedBox(
-                  width: size.width * 0.7,
-                  child: Text(
-                    controller.bankSlipImage.value,
-                    overflow: TextOverflow.ellipsis,
-                    style: TextStyle(
-                      color: Colors.black,
-                    ),
+            SizedBox(width: 20),
+            Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              mainAxisAlignment: MainAxisAlignment.start,
+              children: [
+                Text(
+                  " U Thant Zin Win (KBZ Pay)",
+                  style: TextStyle(
+                    fontSize: 16,
                   ),
                 ),
-                controller.bankSlipImage.value.isNotEmpty
-                    ? SizedBox(
-                        width: 50,
-                        child: IconButton(
-                          onPressed: () => controller.setBankSlipImage(""),
-                          icon: Icon(
-                            FontAwesomeIcons.times,
-                            color: Colors.black,
+                TextButton(
+                  style: TextButton.styleFrom(
+                    primary: Colors.black,
+                    textStyle: const TextStyle(fontSize: 16),
+                  ),
+                  onPressed: () {
+                    Clipboard.setData(new ClipboardData(text: "09443399751"))
+                        .then((_) {
+                      ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                          content: Text(
+                              "KBZ Pay Account နံပါတ် 09 44 33 99 751 ကို Copy ကူး လိုက်ပါပြီ")));
+                    });
+                  },
+                  child: const Text('09 44 33 99 751'),
+                ),
+              ],
+            ),
+          ],
+        ),
+        SizedBox(height: 30),
+        Row(
+          mainAxisAlignment: MainAxisAlignment.start,
+          children: [
+            Column(
+              children: [
+                Image.asset(
+                  "assets/kbz.png",
+                  width: 112,
+                  height: 63,
+                ),
+                SizedBox(height: 5),
+              ],
+            ),
+            SizedBox(width: 20),
+            Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              mainAxisAlignment: MainAxisAlignment.start,
+              children: [
+                Text(
+                  " U Thant Zin Win (KBZ Bank)",
+                  style: TextStyle(
+                    fontSize: 16,
+                  ),
+                ),
+                TextButton(
+                  style: TextButton.styleFrom(
+                    primary: Colors.black,
+                    textStyle: const TextStyle(fontSize: 16),
+                  ),
+                  onPressed: () {
+                    Clipboard.setData(
+                            new ClipboardData(text: "23030206000037201"))
+                        .then((_) {
+                      ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                          content: Text(
+                              "KBZ Bank Account နံပါတ် 230 30 206 0000 37 201 ကို Copy ကူး လိုက်ပါပြီ")));
+                    });
+                  },
+                  child: const Text('230 30 206 0000 37 201'),
+                ),
+              ],
+            ),
+          ],
+        ),
+        SizedBox(height: 30),
+        Row(
+          mainAxisAlignment: MainAxisAlignment.start,
+          children: [
+            Column(
+              children: [
+                Image.asset(
+                  "assets/aya.png",
+                  width: 112,
+                  height: 63,
+                ),
+                SizedBox(height: 5),
+              ],
+            ),
+            SizedBox(width: 20),
+            Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              mainAxisAlignment: MainAxisAlignment.start,
+              children: [
+                Text(
+                  "  U Thant Zin Win (AYA Bank)",
+                  style: TextStyle(
+                    fontSize: 16,
+                  ),
+                ),
+                TextButton(
+                  style: TextButton.styleFrom(
+                    primary: Colors.black,
+                    textStyle: const TextStyle(fontSize: 16),
+                  ),
+                  onPressed: () {
+                    Clipboard.setData(new ClipboardData(text: "20022820660"))
+                        .then((_) {
+                      ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                          content: Text(
+                              "AYA Bank Account နံပါတ်  200 22 820 660 ကို Copy ကူး လိုက်ပါပြီ")));
+                    });
+                  },
+                  child: const Text('200 22 820 660'),
+                ),
+              ],
+            ),
+          ],
+        ),
+        SizedBox(height: 20),
+        Column(
+          children: [
+            //Button
+            OutlinedButton(
+              style: ElevatedButton.styleFrom(
+                  shape: RoundedRectangleBorder(
+                side: BorderSide(color: Colors.black, width: 2),
+                borderRadius: BorderRadius.all(
+                  Radius.circular(10),
+                ),
+              )),
+              onPressed: () => getBankSlip(controller),
+              child: Text("KBZ Pay / KBZ / AYA Screenshot"),
+            ),
+            //Image String
+            Obx(
+              () => SizedBox(
+                height: 50,
+                width: size.width,
+                child: Row(children: [
+                  SizedBox(
+                    width: size.width * 0.7,
+                    child: Text(
+                      controller.bankSlipImage.value,
+                      overflow: TextOverflow.ellipsis,
+                      style: TextStyle(
+                        color: Colors.black,
+                      ),
+                    ),
+                  ),
+                  controller.bankSlipImage.value.isNotEmpty
+                      ? SizedBox(
+                          width: 50,
+                          child: IconButton(
+                            onPressed: () => controller.setBankSlipImage(""),
+                            icon: Icon(
+                              FontAwesomeIcons.times,
+                              color: Colors.black,
+                            ),
                           ),
-                        ),
-                      )
-                    : SizedBox(height: 0, width: 0),
-              ]
+                        )
+                      : SizedBox(height: 0, width: 0),
+                ]),
               ),
-            ),),
-            ],
-          ),
-
-        ],
-
-
-
-
+            ),
+          ],
+        ),
+      ],
     ),
-
-
   );
-
 }
 
 //Get Bank Slip
@@ -400,14 +390,9 @@ class _FormWidgetState extends State<FormWidget> {
               padding: const EdgeInsets.only(top: 20, right: 20, left: 20),
               child: TextFormField(
                 controller: emailController,
-                validator: (e) => e?.isEmpty == true
-                    ? "Email is required"
-                    : e?.isEmail == true
-                        ? null
-                        : "Invalid email",
                 decoration: InputDecoration(
                   border: OutlineInputBorder(),
-                  hintText: 'Email',
+                  hintText: 'မှတ်ချက်',
                 ),
               ),
             ),

@@ -39,6 +39,7 @@ class HomeController extends GetxController {
   var checkOutStep = 0.obs; //Check Out Step
   var bankSlipImage = "".obs;
   Township? township;
+  Map<String, dynamic> townShipNameAndFee = {};
 
   final TextEditingController phoneController = TextEditingController();
   final TextEditingController verificationController = TextEditingController();
@@ -307,6 +308,10 @@ class HomeController extends GetxController {
         address: list[3],
         bankSlipImage: bankSlipImage.value.isEmpty ? null : bankSlipImage.value,
         township: township!,
+        deliveryTownshipInfo: [
+          townShipNameAndFee["townName"],
+          townShipNameAndFee["fee"]
+        ],
       );
       await _database.writePurchaseData(_purchase).then((value) {
         Get.snackbar("လူကြီးမင်း Order တင်ခြင်း", 'အောင်မြင်ပါသည်');

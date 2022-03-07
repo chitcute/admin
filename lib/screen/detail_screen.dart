@@ -11,6 +11,7 @@ import 'package:kozarni_ecome/expaned_widget.dart';
 import 'package:kozarni_ecome/model/discount_percentage.dart';
 import 'package:kozarni_ecome/model/hive_item.dart';
 import 'package:kozarni_ecome/model/size_price.dart';
+import 'package:url_launcher/url_launcher.dart';
 import 'home_screen.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:custom_full_image_screen/custom_full_image_screen.dart';
@@ -58,10 +59,7 @@ class DetailScreen extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 ClipRRect(
-                  borderRadius: BorderRadius.only(
-                    bottomLeft: Radius.circular(30),
-                    bottomRight: Radius.circular(30),
-                  ),
+                  borderRadius: BorderRadius.circular(20),
                   child: Hero(
                     tag: controller.selectedItem.value.photo,
                     child: CarouselSlider(
@@ -75,14 +73,9 @@ class DetailScreen extends StatelessWidget {
                           height: double.infinity,
                           fit: BoxFit.cover,
                         ),
-                        CachedNetworkImage(
-                          imageUrl: controller.selectedItem.value.photo3,
-                          width: double.infinity,
-                          fit: BoxFit.cover,
-                        ),
                       ],
                       options: CarouselOptions(
-                        height: 300,
+                        height: 350,
                         viewportFraction: 1,
                         initialPage: 0,
                         enableInfiniteScroll: true,
@@ -164,7 +157,7 @@ class DetailScreen extends StatelessWidget {
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
                     Text(
-                      "တစ်ထည်ဈေး (Ratail)    : ",
+                      "တစ်ထည်ဈေး (Retail)    : ",
                       style: TextStyle(
                           color: Colors.black,
                           fontWeight: FontWeight.bold,
@@ -259,31 +252,40 @@ class DetailScreen extends StatelessWidget {
                         )
                       ],
                     ),
+
                     Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       mainAxisAlignment: MainAxisAlignment.start,
                       children: [
-                        Text(
-                          "📞 Contact Phone ",
-                          style: TextStyle(
-                            fontSize: 14,
-                            fontWeight: FontWeight.bold,
-                            color: Colors.grey,
+                        Padding(
+                          padding: const EdgeInsets.only(top: 5),
+                          child: Text(
+                            "📞 Contact Phone ",
+                            style: TextStyle(
+                              fontSize: 14,
+                              fontWeight: FontWeight.bold,
+                              color: Colors.black,
+                            ),
                           ),
                         ),
                         SizedBox(
-                          height: 5,
-                        ),
-                        Text(
-                          "     09 44 33 99 751",
-                          style: TextStyle(
-                            fontSize: 14,
-                            fontWeight: FontWeight.bold,
-                            color: Colors.black,
+                          height: 29,
+                          child: TextButton(
+                            onPressed: () => launch("tel://09443399751"),
+                            child: Text(
+                              " 09 44 33 99 751",
+                              style: TextStyle(
+                                fontSize: 14,
+                                fontWeight: FontWeight.bold,
+                                color: Colors.black,
+                              ),
+                            ),
+
                           ),
                         ),
                       ],
                     ),
+
                   ],
                 ),
                 SizedBox(height: 30),
@@ -457,7 +459,7 @@ class _AddToCartState extends State<AddToCart> {
     final HomeController controller = Get.find();
     return SingleChildScrollView(
       child: Padding(
-        padding: const EdgeInsets.only(top: 10, bottom: 10, left: 30, right: 30),
+        padding: const EdgeInsets.only(bottom: 20, left: 20, right: 20),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           mainAxisAlignment: MainAxisAlignment.center,
@@ -468,9 +470,19 @@ class _AddToCartState extends State<AddToCart> {
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
                 //Product Image
-                Image.network(widget.imageUrl, height: 100, width: 100),
+                ClipRRect(
+                    borderRadius: BorderRadius.circular(10),
+                    child: Image.network(widget.imageUrl, height: 100, width: 100)),
                 //Space
-                const SizedBox(width: 10),
+
+                Text(
+                  sizePrice?.sizeText ?? "",
+                  textAlign: TextAlign.left,
+                  style: TextStyle(
+                    color: Colors.red,
+                    fontSize: 16,
+                  ),
+                ),
                 //
                 SizedBox(
                   height: widget.sizePriceList.length * 30,
@@ -494,53 +506,23 @@ class _AddToCartState extends State<AddToCart> {
                           ),
                         ),
                       ],
-                      Text(
-                        sizePrice?.sizeText ?? "",
-                        textAlign: TextAlign.left,
-                        style: TextStyle(
-                          color: Colors.black,
-                          fontSize: 16,
-                        ),
-                      ),
                     ],
                   ),
                 ),
               ],
             ),
             //
-            SizedBox(
-              width: 100,
-              child: DropdownButtonFormField(
-                value: colorValue,
-                hint: Text(
-                  'Color',
-                  style: TextStyle(fontSize: 12),
-                ),
-                onChanged: (String? e) {
-                  colorValue = e;
-                },
-                items: controller.selectedItem.value.color
-                    .split(',')
-                    .map((e) => DropdownMenuItem(
-                          value: e,
-                          child: Text(
-                            e,
-                            style: TextStyle(fontSize: 12),
-                          ),
-                        ))
-                    .toList(),
-              ),
-            ),
+
             SizedBox(
               height: 10,
             ),
             //SizePrice
             SizedBox(
-              height: 50,
+              height: 80,
               child: Wrap(
                 children: widget.sizePriceList.map((element) {
                   return Padding(
-                    padding: const EdgeInsets.only(left: 5, right: 5),
+                    padding: const EdgeInsets.only(left: 7, right: 7),
                     child: OutlinedButton(
                       style: OutlinedButton.styleFrom(
                         side: BorderSide(
@@ -557,73 +539,103 @@ class _AddToCartState extends State<AddToCart> {
                       },
                       child: Text(
                         element.sizeText,
-                        style: TextStyle(color: Colors.black),
+                        style: TextStyle(color: Colors.red),
                       ),
                     ),
                   );
                 }).toList(),
               ),
             ),
-            SizedBox(
-              height: 10,
-            ),
+            SizedBox(height: 20),
             //Price Wholesale (or) Retail
-            SizedBox(
-              width: 200,
-              child: DropdownButtonFormField(
-                value: discountPercentage,
-                hint: Text(
-                  "Price",
-                  style: TextStyle(fontSize: 12),
-                ),
-                onChanged: (String? e) {
-                  discountPercentage = e;
-                },
-                items:
-                    List.generate(widget.discountPercentageList.length, (index) {
-                  final discountText =
-                      widget.discountPercentageList[index].discountText;
-                  final percentText =
-                      widget.discountPercentageList[index].percentage;
-                  return DropdownMenuItem(
-                    onTap: () => discountPercentageObj =
-                        widget.discountPercentageList[index],
-                    value: "$discountText $percentText%",
-                    child: Text(
-                      "$discountText $percentText%",
-                      overflow: TextOverflow.ellipsis,
+            Row(
+              children: [
+                SizedBox(
+                  width: 150,
+                  child: DropdownButtonFormField(
+                    value: discountPercentage,
+                    hint: Text(
+                      "Price",
                       style: TextStyle(fontSize: 12),
                     ),
-                  );
-                }),
-              ),
+                    onChanged: (String? e) {
+                      discountPercentage = e;
+                    },
+                    items:
+                        List.generate(widget.discountPercentageList.length, (index) {
+                      final discountText =
+                          widget.discountPercentageList[index].discountText;
+                      final percentText =
+                          widget.discountPercentageList[index].percentage;
+                      return DropdownMenuItem(
+                        onTap: () => discountPercentageObj =
+                            widget.discountPercentageList[index],
+                        value: "$discountText $percentText%",
+                        child: Text(
+                          "$discountText $percentText%",
+                          overflow: TextOverflow.ellipsis,
+                          style: TextStyle(fontSize: 12),
+                        ),
+                      );
+                    }),
+                  ),
+                ),
+
+                SizedBox(width: 70),
+
+                SizedBox(
+                  width: 70,
+                  child: DropdownButtonFormField(
+                    value: colorValue,
+                    hint: Text(
+                      'Color',
+                      style: TextStyle(fontSize: 12),
+                    ),
+                    onChanged: (String? e) {
+                      colorValue = e;
+                    },
+                    items: controller.selectedItem.value.color
+                        .split(',')
+                        .map((e) => DropdownMenuItem(
+                      value: e,
+                      child: Text(
+                        e,
+                        style: TextStyle(fontSize: 12),
+                      ),
+                    ))
+                        .toList(),
+                  ),
+                ),
+              ],
             ),
             SizedBox(
               height: 10,
             ),
             Padding(
-              padding: const EdgeInsets.only(top: 20, left: 120, right: 120),
-              child: ElevatedButton(
-                style: buttonStyle,
-                onPressed: () {
-                  final mainPrice = controller.getMainPrice(
-                    sizePrice?.price ?? 0,
-                    discountPercentageObj?.discountText ?? "0",
-                    discountPercentageObj?.percentage ?? 0,
-                  );
-                  if (colorValue != null &&
-                      !(sizePrice == null) & !(discountPercentage == null) &&
-                      !(discountPercentageObj == null) &&
-                      mainPrice != 0) {
-                    controller.addToCart(
-                        controller.selectedItem.value,
-                        colorValue!,
-                        "${sizePrice!.sizeText}\n$discountPercentage",
-                        mainPrice.round());
-                    Get.to(HomeScreen());
-                  }
-                },
-                child: Text("၀ယ်ယူရန်"),
+              padding: const EdgeInsets.only(top: 20),
+              child: Center(
+                child: ElevatedButton(
+                  style: buttonStyle,
+                  onPressed: () {
+                    final mainPrice = controller.getMainPrice(
+                      sizePrice?.price ?? 0,
+                      discountPercentageObj?.discountText ?? "0",
+                      discountPercentageObj?.percentage ?? 0,
+                    );
+                    if (colorValue != null &&
+                        !(sizePrice == null) & !(discountPercentage == null) &&
+                        !(discountPercentageObj == null) &&
+                        mainPrice != 0) {
+                      controller.addToCart(
+                          controller.selectedItem.value,
+                          colorValue!,
+                          "${sizePrice!.sizeText}\n$discountPercentage",
+                          mainPrice.round());
+                      Get.to(HomeScreen());
+                    }
+                  },
+                  child: Text("၀ယ်ယူရန်"),
+                ),
               ),
             ),
           ],

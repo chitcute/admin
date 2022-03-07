@@ -9,6 +9,7 @@ class PurchaseModel {
   final int phone;
   final String address;
   final String? bankSlipImage;
+  final List deliveryTownshipInfo;
   final Township township;
   final DateTime? dateTime;
 
@@ -19,6 +20,7 @@ class PurchaseModel {
     required this.email,
     required this.phone,
     required this.address,
+    required this.deliveryTownshipInfo,
     required this.township,
     required this.bankSlipImage,
     this.dateTime,
@@ -33,6 +35,7 @@ class PurchaseModel {
     int? phone,
     String? address,
     String? bankSlipImage,
+    List? deliveryTownshipInfo,
     Township? township,
     DateTime? dateTime,
   }) =>
@@ -44,6 +47,7 @@ class PurchaseModel {
         address: address ?? this.address,
         township: township ?? this.township,
         bankSlipImage: bankSlipImage ?? this.bankSlipImage,
+        deliveryTownshipInfo: deliveryTownshipInfo ?? this.deliveryTownshipInfo,
       );
 
   factory PurchaseModel.fromJson(Map<String, dynamic> json, String id) =>
@@ -57,11 +61,13 @@ class PurchaseModel {
         bankSlipImage: json['bankSlipImage'] as String?,
         township: Township.fromJson(json['township']),
         dateTime: (json['dateTime'] as Timestamp).toDate(),
+        deliveryTownshipInfo: json['deliveryTownshipInfo'] as List,
+
       );
 
   @override
   String toString() {
-    return "$id,$items,$name,$email,$phone,$address,$bankSlipImage,$dateTime";
+    return "$id,$items,$name,$email,$phone,$address,$bankSlipImage,$deliveryTownshipInfo,$dateTime";
   }
 
   Map<String, dynamic> toJson() => {
@@ -72,6 +78,7 @@ class PurchaseModel {
         'address': address,
         'bankSlipImage': bankSlipImage,
         'township': township.toJson(),
+        'deliveryTownshipInfo': deliveryTownshipInfo,
         'dateTime': dateTime ?? DateTime.now(),
       };
 }
