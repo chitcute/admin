@@ -581,7 +581,7 @@ class _AddToCartState extends State<AddToCart> {
                   ),
                 ),
 
-                SizedBox(width: 70),
+                SizedBox(width: 30),
 
                 SizedBox(
                   width: 120,

@@ -256,19 +256,27 @@ class _UploadItemState extends State<UploadItem> {
                 left: 20,
                 right: 20,
               ),
-              child: SizedBox(
-                  height: 50,
-                  width: 100,
-                  child: Row(children: [
-                    //Add Icon
-                    IconButton(
-                      onPressed: () => controller.addSizePrice(),
-                      icon: Icon(FontAwesomeIcons.plusCircle,
-                          color: Colors.black),
-                    ),
-                    //Text
-                    Text("Add Size"),
-                  ])),
+              child: Obx(() {
+                return Container(
+                    decoration: BoxDecoration(
+                        border: Border.all(
+                      color: controller.isEmptySizePrice.value
+                          ? Colors.red
+                          : Colors.white,
+                    )),
+                    height: 50,
+                    width: 100,
+                    child: Row(children: [
+                      //Add Icon
+                      IconButton(
+                        onPressed: () => controller.addSizePrice(),
+                        icon: Icon(FontAwesomeIcons.plusCircle,
+                            color: Colors.black),
+                      ),
+                      //Text
+                      Text("Add Size"),
+                    ]));
+              }),
             ),
             //SizePrice Widget if list is not empty
             Obx(() => controller.sizePriceMap.isNotEmpty
@@ -282,19 +290,27 @@ class _UploadItemState extends State<UploadItem> {
                 left: 20,
                 right: 20,
               ),
-              child: SizedBox(
-                  height: 50,
-                  width: 100,
-                  child: Row(children: [
-                    //Add Icon
-                    IconButton(
-                      onPressed: () => controller.addDiscountPercentage(),
-                      icon: Icon(FontAwesomeIcons.plusCircle,
-                          color: Colors.black),
-                    ),
-                    //Text
-                    Text("Add Discount Percentage"),
-                  ])),
+              child: Obx(() {
+                return Container(
+                    decoration: BoxDecoration(
+                        border: Border.all(
+                      color: controller.isEmptyDiscountPercentage.value
+                          ? Colors.red
+                          : Colors.white,
+                    )),
+                    height: 50,
+                    width: 100,
+                    child: Row(children: [
+                      //Add Icon
+                      IconButton(
+                        onPressed: () => controller.addDiscountPercentage(),
+                        icon: Icon(FontAwesomeIcons.plusCircle,
+                            color: Colors.black),
+                      ),
+                      //Text
+                      Text("Add Discount Percentage"),
+                    ]));
+              }),
             ),
             //SizePrice Widget if list is not empty
             Obx(() => controller.discountPercentageMap.isNotEmpty
@@ -359,7 +375,7 @@ class _UploadItemState extends State<UploadItem> {
   Widget sizePriceListWidget() {
     return Obx(() {
       return AnimatedContainer(
-          height: (controller.sizePriceMap.length * 50) + 20,
+          height: (controller.sizePriceMap.length * 50) + 80,
           curve: Curves.easeInOut,
           duration: const Duration(milliseconds: 600),
           padding: const EdgeInsets.only(
@@ -382,7 +398,7 @@ class _UploadItemState extends State<UploadItem> {
   discountPercentageListWidget() {
     return Obx(() {
       return AnimatedContainer(
-          height: (controller.discountPercentageMap.length * 50) + 20,
+          height: (controller.discountPercentageMap.length * 50) + 80,
           curve: Curves.easeInOut,
           duration: const Duration(milliseconds: 600),
           padding: const EdgeInsets.only(

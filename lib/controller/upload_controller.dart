@@ -8,10 +8,12 @@ import 'package:kozarni_ecome/model/item.dart';
 import 'package:kozarni_ecome/model/size_price.dart';
 import 'package:kozarni_ecome/service/api.dart';
 import 'package:kozarni_ecome/service/database.dart';
+import 'package:uuid/uuid.dart';
 
 class UploadController extends GetxController {
   final RxBool isUploading = false.obs;
-
+  var isEmptySizePrice = false.obs;
+  var isEmptyDiscountPercentage = false.obs;
   final HomeController _homeController = Get.find();
 
   @override
@@ -83,7 +85,8 @@ class UploadController extends GetxController {
 
   //Change SizePrice's price
   void changeSizePricePrice(String value, String id) {
-    sizePriceMap[id] = sizePriceMap[id]!.copyWith(price: value.isEmpty ? 0 : int.parse(value));
+    sizePriceMap[id] =
+        sizePriceMap[id]!.copyWith(price: value.isEmpty ? 0 : int.parse(value));
   }
 
   //Delete SizePrice
@@ -128,6 +131,12 @@ class UploadController extends GetxController {
   String? validator(String? data) => data?.isEmpty == true ? 'empty' : null;
 
   Future<void> upload() async {
+    if (sizePriceMap.isNotEmpty) {
+      isEmptySizePrice.value = false;
+    }
+    if (discountPercentageMap.isNotEmpty) {
+      isEmptyDiscountPercentage.value = false;
+    }
     if (isUploading.value) return;
     try {
       isUploading.value = true;
@@ -135,7 +144,9 @@ class UploadController extends GetxController {
           //  &&
 
           // filePath.value.isNotEmpty
-          ) {
+          &&
+          sizePriceMap.isNotEmpty &&
+          discountPercentageMap.isNotEmpty) {
         final DateTime dateTime = DateTime.now();
 
         // await _api.uploadFile(
@@ -175,6 +186,7 @@ class UploadController extends GetxController {
             itemCollection,
             data: ItemModel.empty()
                 .copyWith(
+                  id: Uuid().v1(),
                   photo: photoController.text,
                   photo2: photo2Controller.text,
                   photo3: photo3Controller.text,
@@ -187,6 +199,10 @@ class UploadController extends GetxController {
                   star: int.parse(starController.text),
                   desc: desc.text,
                   category: categoryController.text,
+                  sizePrice: sizePriceMap.entries.map((e) => e.value).toList(),
+                  discountPercentage: discountPercentageMap.entries
+                      .map((e) => e.value)
+                      .toList(),
                 )
                 .toJson(),
           );
@@ -207,7 +223,18 @@ class UploadController extends GetxController {
         sizeController.clear();
         starController.clear();
         categoryController.clear();
+        isEmptySizePrice.value = false;
+        isEmptyDiscountPercentage.value = false;
+        sizePriceMap.clear();
+        discountPercentageMap.clear();
         return;
+      } else {
+        sizePriceMap.isEmpty
+            ? isEmptySizePrice.value = true
+            : isEmptySizePrice.value = false; //to show error
+        discountPercentageMap.isEmpty
+            ? isEmptyDiscountPercentage.value = true
+            : isEmptyDiscountPercentage.value = false;
       }
       isUploading.value = false;
       Get.snackbar('Required', 'Image is required');

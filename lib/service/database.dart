@@ -31,7 +31,7 @@ class Database {
     String? path,
     required Map<String, dynamic> data,
   }) =>
-      _firebaseFirestore.collection(collectionPath).doc(path).set(data);
+      _firebaseFirestore.collection(collectionPath).doc(data["id"]).set(data);
 
   //Write PurchaseData
   Future<void> writePurchaseData(PurchaseModel model) async {
@@ -97,8 +97,10 @@ class Database {
     String collectionPath, {
     required String path,
     required Map<String, dynamic> data,
-  }) =>
-      _firebaseFirestore.collection(collectionPath).doc(path).update(data);
+  }) async {
+    debugPrint("*******documentId: $path");
+    await _firebaseFirestore.collection(collectionPath).doc(path).update(data);
+  }
 
   Future<void> delete(
     String collectionPath, {

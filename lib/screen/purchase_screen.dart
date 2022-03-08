@@ -355,7 +355,7 @@ class PurchaseScreen extends StatelessWidget {
                     ),
                   ),
                   Text(
-                    "${list[i].items[o].toString().split(',').last} x  ${list[i].items[o].toString().split(',')[3]} ထည်",
+                    "${list[i].items[o].toString().split(',').last} x  ${list[i].items[o].toString().split(',')[3]}",
                     style: TextStyle(fontSize: 10),
                   ),
                 ],
