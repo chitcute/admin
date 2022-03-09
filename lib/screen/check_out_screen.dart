@@ -448,7 +448,7 @@ class _FormWidgetState extends State<FormWidget> {
                     Get.snackbar("လူကြီးမင်း Order တင်ခြင်း", 'အောင်မြင်ပါသည်');*/
                   }
                 },
-                child: Text('Save'),
+                child: Text('သိမ်းထားမည်'),
               ),
             ),
           ],

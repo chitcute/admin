@@ -1,5 +1,4 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:kozarni_ecome/model/township.dart';
 
 class PurchaseModel {
   final String? id;
@@ -10,7 +9,6 @@ class PurchaseModel {
   final String address;
   final String? bankSlipImage;
   final List deliveryTownshipInfo;
-  final Township township;
   final DateTime? dateTime;
 
   PurchaseModel({
@@ -21,7 +19,6 @@ class PurchaseModel {
     required this.phone,
     required this.address,
     required this.deliveryTownshipInfo,
-    required this.township,
     required this.bankSlipImage,
     this.dateTime,
   });
@@ -36,7 +33,6 @@ class PurchaseModel {
     String? address,
     String? bankSlipImage,
     List? deliveryTownshipInfo,
-    Township? township,
     DateTime? dateTime,
   }) =>
       PurchaseModel(
@@ -45,9 +41,8 @@ class PurchaseModel {
         email: email ?? this.email,
         phone: phone ?? this.phone,
         address: address ?? this.address,
-        township: township ?? this.township,
-        bankSlipImage: bankSlipImage ?? this.bankSlipImage,
         deliveryTownshipInfo: deliveryTownshipInfo ?? this.deliveryTownshipInfo,
+        bankSlipImage: bankSlipImage ?? this.bankSlipImage,
       );
 
   factory PurchaseModel.fromJson(Map<String, dynamic> json, String id) =>
@@ -59,10 +54,8 @@ class PurchaseModel {
         phone: json['phone'] as int,
         address: json['address'] as String,
         bankSlipImage: json['bankSlipImage'] as String?,
-        township: Township.fromJson(json['township']),
-        dateTime: (json['dateTime'] as Timestamp).toDate(),
         deliveryTownshipInfo: json['deliveryTownshipInfo'] as List,
-
+        dateTime: (json['dateTime'] as Timestamp).toDate(),
       );
 
   @override
@@ -77,7 +70,6 @@ class PurchaseModel {
         'phone': phone,
         'address': address,
         'bankSlipImage': bankSlipImage,
-        'township': township.toJson(),
         'deliveryTownshipInfo': deliveryTownshipInfo,
         'dateTime': dateTime ?? DateTime.now(),
       };

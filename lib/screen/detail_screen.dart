@@ -67,7 +67,7 @@ class DetailScreen extends StatelessWidget {
                         CachedNetworkImage(
                             imageUrl: controller.selectedItem.value.photo,
                             width: double.infinity,
-                            fit: BoxFit.cover),
+                            fit: BoxFit.fitHeight),
                         CachedNetworkImage(
                           imageUrl: controller.selectedItem.value.photo2,
                           height: double.infinity,
@@ -107,7 +107,7 @@ class DetailScreen extends StatelessWidget {
                       Row(
                         children: List.generate(
                           5,
-                          (index) => Icon(
+                              (index) => Icon(
                             Icons.star,
                             size: 20,
                             color: index <= controller.selectedItem.value.star
@@ -119,10 +119,10 @@ class DetailScreen extends StatelessWidget {
                       //Favourite Icon
                       ValueListenableBuilder(
                         valueListenable:
-                            Hive.box<HiveItem>(boxName).listenable(),
+                        Hive.box<HiveItem>(boxName).listenable(),
                         builder: (context, Box<HiveItem> box, widget) {
                           final currentObj =
-                              box.get(controller.selectedItem.value.id);
+                          box.get(controller.selectedItem.value.id);
 
                           if (!(currentObj == null)) {
                             return IconButton(
@@ -299,21 +299,21 @@ class DetailScreen extends StatelessWidget {
                         child: ImageCachedFullscreen(
                           imageUrl: controller.selectedItem.value.photo,
                           imageBorderRadius: 7,
-                          imageWidth: 150,
-                          imageHeight: 150,
-                          imageFit: BoxFit.cover,
+                          imageWidth: 170,
+                          imageHeight: 170,
+                          imageFit: BoxFit.fitHeight,
                           imageDetailsHeight: double.infinity,
                           imageDetailsWidth: double.infinity,
                           imageDetailsFit: BoxFit.fitWidth,
                           withHeroAnimation: true,
                           placeholder: Container(),
                           placeholderDetails:
-                              Center(child: CircularProgressIndicator()),
+                          Center(child: CircularProgressIndicator()),
                         ),
                       ),
                     ),
                     SizedBox(
-                      width: 40,
+                      width: 20,
                     ),
                     Expanded(
                       child: Column(
@@ -326,16 +326,16 @@ class DetailScreen extends StatelessWidget {
                               child: ImageCachedFullscreen(
                                 imageUrl: controller.selectedItem.value.photo2,
                                 imageBorderRadius: 7,
-                                imageWidth: 150,
-                                imageHeight: 150,
-                                imageFit: BoxFit.cover,
+                                imageWidth: 170,
+                                imageHeight: 170,
+                                imageFit: BoxFit.fitHeight,
                                 imageDetailsHeight: double.infinity,
                                 imageDetailsWidth: double.infinity,
                                 imageDetailsFit: BoxFit.fitWidth,
                                 withHeroAnimation: true,
                                 placeholder: Container(),
                                 placeholderDetails:
-                                    Center(child: CircularProgressIndicator()),
+                                Center(child: CircularProgressIndicator()),
                               ),
                             ),
                           ),
@@ -361,7 +361,7 @@ class DetailScreen extends StatelessWidget {
                         withHeroAnimation: true,
                         placeholder: Container(),
                         placeholderDetails:
-                            Center(child: CircularProgressIndicator()),
+                        Center(child: CircularProgressIndicator()),
                       ),
                     ),
                   ),
@@ -413,13 +413,13 @@ class DetailScreen extends StatelessWidget {
               context: context,
               shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.only(
-                topLeft: Radius.circular(20),
-                topRight: Radius.circular(20),
-              )),
+                    topLeft: Radius.circular(20),
+                    topRight: Radius.circular(20),
+                  )),
               builder: (context) {
                 return AddToCart(
                   discountPercentageList:
-                      controller.selectedItem.value.discountPercentage,
+                  controller.selectedItem.value.discountPercentage,
                   sizePriceList: controller.selectedItem.value.sizePrice,
                   imageUrl: controller.selectedItem.value.photo,
                 );
@@ -551,7 +551,7 @@ class _AddToCartState extends State<AddToCart> {
             Row(
               children: [
                 SizedBox(
-                  width: 150,
+                  width: 190,
                   child: DropdownButtonFormField(
                     value: discountPercentage,
                     hint: Text(
@@ -562,14 +562,14 @@ class _AddToCartState extends State<AddToCart> {
                       discountPercentage = e;
                     },
                     items:
-                        List.generate(widget.discountPercentageList.length, (index) {
+                    List.generate(widget.discountPercentageList.length, (index) {
                       final discountText =
                           widget.discountPercentageList[index].discountText;
                       final percentText =
                           widget.discountPercentageList[index].percentage;
                       return DropdownMenuItem(
                         onTap: () => discountPercentageObj =
-                            widget.discountPercentageList[index],
+                        widget.discountPercentageList[index],
                         value: "$discountText $percentText%",
                         child: Text(
                           "$discountText $percentText%",

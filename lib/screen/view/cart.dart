@@ -8,6 +8,7 @@ import 'package:kozarni_ecome/controller/home_controller.dart';
 import 'package:kozarni_ecome/data/constant.dart';
 import 'package:kozarni_ecome/data/enum.dart';
 import 'package:kozarni_ecome/data/township_list.dart';
+import 'package:kozarni_ecome/model/division.dart';
 import 'package:kozarni_ecome/routes/routes.dart';
 import 'package:kozarni_ecome/widgets/custom_checkbox.dart';
 
@@ -31,18 +32,21 @@ class CartView extends StatelessWidget {
                 child: Row(
                   children: [
                     ClipRRect(
-                      borderRadius: BorderRadius.circular(10),
+                      borderRadius: BorderRadius.only(
+                        topLeft: Radius.circular(10),
+                        bottomLeft: Radius.circular(10),
+                      ),
                       child: CachedNetworkImage(
                         imageUrl:
                             controller.getItem(controller.myCart[i].id).photo,
                         // "$baseUrl$itemUrl${controller.getItem(controller.myCart[i].id).photo}/get",
-                        width: 80,
+                        width: 100,
                         height: 100,
                         fit: BoxFit.fitHeight,
                       ),
                     ),
                     SizedBox(
-                      width: 20,
+                      width: 10,
                     ),
                     Expanded(
                       child: Column(
@@ -151,47 +155,45 @@ class CartView extends StatelessWidget {
                             fontWeight: FontWeight.w400,
                           ),
                         ),
-                        //DropDown TownShip List
+
+                        ///DropDown TownShip List
                         Container(
-                          width: 150,
+                          width: 100,
                           height: 50,
                           child:
                               GetBuilder<HomeController>(builder: (controller) {
-                            return DropdownButtonFormField(
-                              value: controller.townshipName,
-                              hint: Text(
-                                'Township',
-                                style: TextStyle(fontSize: 12),
-                              ),
-                              onChanged: (String? e) {
-                                print("*******************$e************");
-                                controller.setTownshipName(e);
+                            return InkWell(
+                              onTap: () {
+                                //Show Dialog
+                                showDialog(
+                                    barrierColor: Colors.white.withOpacity(0),
+                                    context: context,
+                                    builder: (context) {
+                                      return divisionDialogWidget();
+                                    });
                               },
-                              items:
-                                  List.generate(townshipList.length, (index) {
-                                return DropdownMenuItem(
-                                  value: "${townshipList[index].name}",
-                                  onTap: () {
-                                    controller.setTownship(townshipList[
-                                        index]); //SET TOWNSHIP OBJECT
-                                  },
-                                  child: SizedBox(
-                                    width:  120,
-                                      child: Text(
-                                        townshipList[index].name,
-                                        style: TextStyle(fontSize: 12),
-                                      ),
+                              child: Row(children: [
+                                //Township Name
+                                Expanded(
+                                  child: Text(
+                                    controller.townShipNameAndFee["townName"] ??
+                                        "မြို့နယ်",
+                                    overflow: TextOverflow.ellipsis,
+                                    maxLines: 1,
                                   ),
-                                );
-                              }),
+                                ),
+                                //DropDown Icon
+                                Expanded(
+                                    child: Icon(FontAwesomeIcons.angleDown)),
+                              ]),
                             );
                           }),
                         ),
                         GetBuilder<HomeController>(builder: (controller) {
                           return Text(
-                            controller.township == null
+                            controller.townShipNameAndFee.isEmpty
                                 ? "0ကျပ်"
-                                : " ${controller.township!.fee} ကျပ်",
+                                : " ${controller.townShipNameAndFee["fee"]} ကျပ်",
                             style: TextStyle(
                               fontSize: 12,
                               fontWeight: FontWeight.w400,
@@ -227,9 +229,9 @@ class CartView extends StatelessWidget {
                         ),
                         GetBuilder<HomeController>(builder: (controller) {
                           return Text(
-                            controller.township == null
+                            controller.townShipNameAndFee.isEmpty
                                 ? "${controller.subTotal}"
-                                : "${controller.subTotal + controller.township!.fee} ကျပ်",
+                                : "${controller.subTotal + controller.townShipNameAndFee["fee"]} ကျပ်",
                             style: TextStyle(
                               fontSize: 14,
                               fontWeight: FontWeight.bold,
@@ -256,8 +258,7 @@ class CartView extends StatelessWidget {
             ),
             onPressed: () {
               if (controller.myCart.isNotEmpty &&
-                  !(controller.townshipName == null) &&
-                  !(controller.township == null)) {
+                  !(controller.townShipNameAndFee.isEmpty)) {
                 //TODO: SHOW DIALOG TO CHOOSE OPTION,THEN GO TO CHECKOUT
                 Get.defaultDialog(
                   backgroundColor: Colors.white70,
@@ -279,6 +280,114 @@ class CartView extends StatelessWidget {
       ],
     );
   }
+}
+
+Widget divisionDialogWidget() {
+  return Align(
+    alignment: Alignment.center,
+    child: GetBuilder<HomeController>(builder: (controller) {
+      return Container(
+        decoration: BoxDecoration(
+          border: Border(
+            top: BorderSide(),
+            bottom: BorderSide(),
+            left: BorderSide(),
+            right: BorderSide(),
+          ),
+        ),
+        width: 150,
+        child: ListView.builder(
+          shrinkWrap: true,
+          itemCount: divisionList.length,
+          itemBuilder: (context, divisionIndex) {
+            return MouseRegion(
+              onHover: (event) {
+                controller.changeMouseIndex(divisionIndex);
+                showDialog(
+                  context: context,
+                  barrierColor: Colors.white.withOpacity(0),
+                  builder: (context) {
+                    return townShipDialog(
+                        division: divisionList[divisionIndex]);
+                  },
+                );
+              },
+              onExit: (event) {
+                // controller
+                //   .changeMouseIndex(0);
+                Navigator.of(context).pop();
+              },
+              child: AnimatedContainer(
+                color: controller.mouseIndex == divisionIndex
+                    ? Colors.orange
+                    : Colors.white,
+                duration: const Duration(milliseconds: 200),
+                child: Row(mainAxisAlignment: MainAxisAlignment.end, children: [
+                  //Text
+                  Text(divisionList[divisionIndex].name),
+                  SizedBox(width: 10),
+                  Icon(FontAwesomeIcons.angleRight),
+                ]),
+              ),
+            );
+          },
+        ),
+      );
+    }),
+  );
+}
+
+Widget townShipDialog({required Division division}) {
+  HomeController _controller = Get.find();
+  return Align(
+    alignment: Alignment.topCenter,
+    child: Container(
+      width: 270,
+      height: MediaQuery.of(Get.context!).size.height * 0.4,
+      decoration: BoxDecoration(
+        border: Border(
+          top: BorderSide(),
+          bottom: BorderSide(),
+          left: BorderSide(),
+          right: BorderSide(),
+        ),
+        color: Colors.white,
+      ),
+      child: ListView(
+        children: division.townShipMap.entries.map((map) {
+          return SizedBox(
+            height: map.value.length * 50,
+            child: ListView.builder(
+                primary: false,
+                itemCount: map.value.length,
+                itemBuilder: (context, index) {
+                  return TextButton(
+                    onPressed: () {
+                      _controller.setTownShipNameAndShip(
+                        name: map.value[index],
+                        fee: map.key,
+                      );
+                      //Pop this dialog
+                      Get.back();
+                      Get.back();
+                    },
+                    child: Padding(
+                      padding: const EdgeInsets.only(left: 10, right: 10),
+                      child: Align(
+                        alignment: Alignment.centerLeft,
+                        child: Text(map.value[index],
+                            style: TextStyle(
+                              color: Colors.black,
+                            )),
+                      ),
+                    ),
+                  );
+                }),
+          );
+        }).toList(),
+      ),
+    ),
+  );
 }
 
 class PaymentOptionContent extends StatelessWidget {

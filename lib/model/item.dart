@@ -1,5 +1,4 @@
 import 'package:freezed_annotation/freezed_annotation.dart';
-import 'package:uuid/uuid.dart';
 
 import 'discount_percentage.dart';
 import 'size_price.dart';
@@ -9,6 +8,7 @@ part 'item.g.dart';
 
 @freezed
 class ItemModel with _$ItemModel {
+  @JsonSerializable(explicitToJson: true)
   factory ItemModel({
     required String id,
     required String photo,

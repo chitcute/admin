@@ -8,7 +8,10 @@ import 'package:get/state_manager.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:kozarni_ecome/data/constant.dart';
 import 'package:kozarni_ecome/data/enum.dart';
+import 'package:kozarni_ecome/model/discount_percentage.dart';
+import 'package:kozarni_ecome/model/hive_discount_percentage.dart';
 import 'package:kozarni_ecome/model/hive_item.dart';
+import 'package:kozarni_ecome/model/hive_size_price.dart';
 import 'package:kozarni_ecome/model/item.dart';
 import 'package:kozarni_ecome/model/purchase.dart';
 import 'package:kozarni_ecome/model/size_price.dart';
@@ -39,7 +42,6 @@ class HomeController extends GetxController {
   var checkOutStep = 0.obs; //Check Out Step
   var bankSlipImage = "".obs;
   Township? township;
-  Map<String, dynamic> townShipNameAndFee = {};
 
   final TextEditingController phoneController = TextEditingController();
   final TextEditingController verificationController = TextEditingController();
@@ -48,6 +50,25 @@ class HomeController extends GetxController {
   final RxInt _codeSentToken = 0.obs;
 
   final RxList<PurchaseItem> myCart = <PurchaseItem>[].obs;
+  Map<String, dynamic> townShipNameAndFee = {}; //Township Name and Fee
+
+  int mouseIndex = -1; //Mouse Region
+
+  void changeMouseIndex(int i) {
+    // Change Mouse Region
+    mouseIndex = i;
+    debugPrint("On Mouse Exist************");
+    update();
+  }
+
+  //Set Township Name
+  void setTownShipNameAndShip({required String name, required String fee}) {
+    townShipNameAndFee = {
+      "townName": name,
+      "fee": int.parse(fee),
+    };
+    update();
+  }
 
   //Set Shipping Fee
   void setTownshipName(String? val) {
@@ -112,9 +133,9 @@ class HomeController extends GetxController {
       //TODO: TO SHOW it was wrong when upload discountText when admin upload.
     }
     double discountPrice = 0;
-    if(discount != 0){
+    if (discount != 0) {
       final originalPrice = sizePrice * discount;
-    discountPrice = originalPrice - (originalPrice * (percentage / 100));
+      discountPrice = originalPrice - (originalPrice * (percentage / 100));
     }
     return discountPrice;
   }
@@ -132,6 +153,7 @@ class HomeController extends GetxController {
   final Rx<ItemModel> editItem = ItemModel.empty().obs;
 
   void setEditItem(ItemModel itemModel) {
+    debugPrint("***********${itemModel.id}**********");
     editItem.value = itemModel;
   }
 
@@ -251,8 +273,20 @@ class HomeController extends GetxController {
       discountprice: model.discountprice,
       desc: model.desc,
       color: model.color,
-      sizePrice: model.sizePrice,
-      discountPercentage: model.discountPercentage,
+      sizePrice: model.sizePrice
+          .map((e) => HiveSizePrice(
+                id: e.id,
+                sizeText: e.sizeText,
+                price: e.price,
+              ))
+          .toList(),
+      discountPercentage: model.discountPercentage
+          .map((e) => HiveDiscountPercentage(
+                id: e.id,
+                discountText: e.discountText,
+                percentage: e.percentage,
+              ))
+          .toList(),
       star: model.star,
       category: model.category,
     );
@@ -272,8 +306,20 @@ class HomeController extends GetxController {
       discountprice: model.discountprice,
       desc: model.desc,
       color: model.color,
-      sizePrice: model.sizePrice,
-      discountPercentage: model.discountPercentage,
+      sizePrice: model.sizePrice
+          .map((e) => SizePrice(
+                id: e.id,
+                sizeText: e.sizeText,
+                price: e.price,
+              ))
+          .toList(),
+      discountPercentage: model.discountPercentage
+          .map((e) => DiscountPercentage(
+                id: e.id,
+                discountText: e.discountText,
+                percentage: e.percentage,
+              ))
+          .toList(),
       star: model.star,
       category: model.category,
     );
@@ -307,7 +353,6 @@ class HomeController extends GetxController {
         phone: int.parse(list[2]),
         address: list[3],
         bankSlipImage: bankSlipImage.value.isEmpty ? null : bankSlipImage.value,
-        township: township!,
         deliveryTownshipInfo: [
           townShipNameAndFee["townName"],
           townShipNameAndFee["fee"]
