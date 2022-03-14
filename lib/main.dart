@@ -5,7 +5,6 @@ import 'package:get/get.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 import 'package:kozarni_ecome/controller/home_controller.dart';
 import 'package:kozarni_ecome/data/constant.dart';
-import 'package:kozarni_ecome/model/hive_discount_percentage.dart';
 import 'package:kozarni_ecome/model/hive_item.dart';
 import 'package:kozarni_ecome/model/hive_size_price.dart';
 import 'package:kozarni_ecome/routes/routes.dart';
@@ -21,7 +20,6 @@ Future<void> main() async {
   await Hive.initFlutter();
   Hive.registerAdapter<HiveItem>(HiveItemAdapter());
   Hive.registerAdapter<HiveSizePrice>(HiveSizePriceAdapter());
-  Hive.registerAdapter<HiveDiscountPercentage>(HiveDiscountPercentageAdapter());
   await Hive.openBox<HiveItem>(boxName);
   FirebaseMessaging.onBackgroundMessage(_firebaseMessagingBackgroundHandler);
   Get.put(HomeController());

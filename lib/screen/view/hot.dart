@@ -42,19 +42,9 @@ class HotView extends StatelessWidget {
                           fontWeight: FontWeight.w700,
                         ),
                       ),
+
                       SizedBox(
-                        height: 5,
-                      ),
-                      Text(
-                        "${controller.hot()[i].discountprice}  Ks",
-                        style: TextStyle(
-                          color: homeIndicatorColor,
-                          fontSize: 16,
-                          fontWeight: FontWeight.w400,
-                        ),
-                      ),
-                      SizedBox(
-                        height: 5,
+                        height: 10,
                       ),
 
                       Row(
@@ -62,7 +52,7 @@ class HotView extends StatelessWidget {
                           5,
                               (index) => Icon(
                             Icons.star,
-                            size: 16,
+                            size: 18,
                             color: index <= controller.getItems()[i].star
                                 ? homeIndicatorColor
                                 : Colors.grey,
@@ -72,6 +62,40 @@ class HotView extends StatelessWidget {
                     ],
                   ),
                 ),
+
+
+
+                Padding(
+                  padding: const EdgeInsets.only(left: 20),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                        "${controller.hot()[i].discountprice}  Ks",
+                        style: TextStyle(
+                          color: homeIndicatorColor,
+                          fontSize: 18,
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
+
+                      SizedBox(
+                        height: 10,
+                      ),
+                      Text(
+                        "${controller.hot()[i].price}  Ks",
+                        style: TextStyle(
+                          decoration: TextDecoration.lineThrough,
+                          color: Colors.red,
+                          fontSize: 16,
+                          fontWeight: FontWeight.w400,
+                        ),
+                      ),
+
+                    ],
+                  ),
+                ),
+
                 ClipRRect(
                   borderRadius: BorderRadius.only(
                     topRight: Radius.circular(6),

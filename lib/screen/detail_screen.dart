@@ -8,10 +8,8 @@ import 'package:kozarni_ecome/controller/home_controller.dart';
 import 'package:kozarni_ecome/data/constant.dart';
 import 'package:get/get.dart';
 import 'package:kozarni_ecome/expaned_widget.dart';
-import 'package:kozarni_ecome/model/discount_percentage.dart';
 import 'package:kozarni_ecome/model/hive_item.dart';
 import 'package:kozarni_ecome/model/size_price.dart';
-import 'package:url_launcher/url_launcher.dart';
 import 'home_screen.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:custom_full_image_screen/custom_full_image_screen.dart';
@@ -59,7 +57,10 @@ class DetailScreen extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 ClipRRect(
-                  borderRadius: BorderRadius.circular(20),
+                  borderRadius: BorderRadius.only(
+                    bottomLeft: Radius.circular(30),
+                    bottomRight: Radius.circular(30),
+                  ),
                   child: Hero(
                     tag: controller.selectedItem.value.photo,
                     child: CarouselSlider(
@@ -71,11 +72,16 @@ class DetailScreen extends StatelessWidget {
                         CachedNetworkImage(
                           imageUrl: controller.selectedItem.value.photo2,
                           height: double.infinity,
-                          fit: BoxFit.cover,
+                          fit: BoxFit.fitHeight,
+                        ),
+                        CachedNetworkImage(
+                          imageUrl: controller.selectedItem.value.photo3,
+                          width: double.infinity,
+                          fit: BoxFit.fitWidth,
                         ),
                       ],
                       options: CarouselOptions(
-                        height: 350,
+                        height: 300,
                         viewportFraction: 1,
                         initialPage: 0,
                         enableInfiniteScroll: true,
@@ -107,7 +113,7 @@ class DetailScreen extends StatelessWidget {
                       Row(
                         children: List.generate(
                           5,
-                              (index) => Icon(
+                          (index) => Icon(
                             Icons.star,
                             size: 20,
                             color: index <= controller.selectedItem.value.star
@@ -119,10 +125,10 @@ class DetailScreen extends StatelessWidget {
                       //Favourite Icon
                       ValueListenableBuilder(
                         valueListenable:
-                        Hive.box<HiveItem>(boxName).listenable(),
+                            Hive.box<HiveItem>(boxName).listenable(),
                         builder: (context, Box<HiveItem> box, widget) {
                           final currentObj =
-                          box.get(controller.selectedItem.value.id);
+                              box.get(controller.selectedItem.value.id);
 
                           if (!(currentObj == null)) {
                             return IconButton(
@@ -252,40 +258,31 @@ class DetailScreen extends StatelessWidget {
                         )
                       ],
                     ),
-
                     Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       mainAxisAlignment: MainAxisAlignment.start,
                       children: [
-                        Padding(
-                          padding: const EdgeInsets.only(top: 5),
-                          child: Text(
-                            "📞 Contact Phone ",
-                            style: TextStyle(
-                              fontSize: 14,
-                              fontWeight: FontWeight.bold,
-                              color: Colors.black,
-                            ),
+                        Text(
+                          "📞 Contact Phone ",
+                          style: TextStyle(
+                            fontSize: 14,
+                            fontWeight: FontWeight.bold,
+                            color: Colors.grey,
                           ),
                         ),
                         SizedBox(
-                          height: 29,
-                          child: TextButton(
-                            onPressed: () => launch("tel://09443399751"),
-                            child: Text(
-                              " 09 44 33 99 751",
-                              style: TextStyle(
-                                fontSize: 14,
-                                fontWeight: FontWeight.bold,
-                                color: Colors.black,
-                              ),
-                            ),
-
+                          height: 5,
+                        ),
+                        Text(
+                          "     09 44 33 99 751",
+                          style: TextStyle(
+                            fontSize: 14,
+                            fontWeight: FontWeight.bold,
+                            color: Colors.black,
                           ),
                         ),
                       ],
                     ),
-
                   ],
                 ),
                 SizedBox(height: 30),
@@ -299,8 +296,8 @@ class DetailScreen extends StatelessWidget {
                         child: ImageCachedFullscreen(
                           imageUrl: controller.selectedItem.value.photo,
                           imageBorderRadius: 7,
-                          imageWidth: 170,
-                          imageHeight: 170,
+                          imageWidth: 160,
+                          imageHeight: 200,
                           imageFit: BoxFit.fitHeight,
                           imageDetailsHeight: double.infinity,
                           imageDetailsWidth: double.infinity,
@@ -308,12 +305,12 @@ class DetailScreen extends StatelessWidget {
                           withHeroAnimation: true,
                           placeholder: Container(),
                           placeholderDetails:
-                          Center(child: CircularProgressIndicator()),
+                              Center(child: CircularProgressIndicator()),
                         ),
                       ),
                     ),
                     SizedBox(
-                      width: 20,
+                      width: 30,
                     ),
                     Expanded(
                       child: Column(
@@ -326,8 +323,8 @@ class DetailScreen extends StatelessWidget {
                               child: ImageCachedFullscreen(
                                 imageUrl: controller.selectedItem.value.photo2,
                                 imageBorderRadius: 7,
-                                imageWidth: 170,
-                                imageHeight: 170,
+                                imageWidth: 160,
+                                imageHeight: 200,
                                 imageFit: BoxFit.fitHeight,
                                 imageDetailsHeight: double.infinity,
                                 imageDetailsWidth: double.infinity,
@@ -335,7 +332,7 @@ class DetailScreen extends StatelessWidget {
                                 withHeroAnimation: true,
                                 placeholder: Container(),
                                 placeholderDetails:
-                                Center(child: CircularProgressIndicator()),
+                                    Center(child: CircularProgressIndicator()),
                               ),
                             ),
                           ),
@@ -361,7 +358,7 @@ class DetailScreen extends StatelessWidget {
                         withHeroAnimation: true,
                         placeholder: Container(),
                         placeholderDetails:
-                        Center(child: CircularProgressIndicator()),
+                            Center(child: CircularProgressIndicator()),
                       ),
                     ),
                   ),
@@ -413,13 +410,11 @@ class DetailScreen extends StatelessWidget {
               context: context,
               shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.only(
-                    topLeft: Radius.circular(20),
-                    topRight: Radius.circular(20),
-                  )),
+                topLeft: Radius.circular(20),
+                topRight: Radius.circular(20),
+              )),
               builder: (context) {
                 return AddToCart(
-                  discountPercentageList:
-                  controller.selectedItem.value.discountPercentage,
                   sizePriceList: controller.selectedItem.value.sizePrice,
                   imageUrl: controller.selectedItem.value.photo,
                 );
@@ -435,12 +430,10 @@ class DetailScreen extends StatelessWidget {
 
 class AddToCart extends StatefulWidget {
   final String imageUrl;
-  final List<DiscountPercentage> discountPercentageList;
   final List<SizePrice> sizePriceList;
   const AddToCart({
     Key? key,
     required this.imageUrl,
-    required this.discountPercentageList,
     required this.sizePriceList,
   }) : super(key: key);
 
@@ -452,194 +445,135 @@ class _AddToCartState extends State<AddToCart> {
   String? colorValue;
   String? discountPercentage;
   SizePrice? sizePrice;
-  DiscountPercentage? discountPercentageObj;
   final HomeController controller = Get.find();
   @override
   Widget build(BuildContext context) {
     final HomeController controller = Get.find();
     return SingleChildScrollView(
-      child: Padding(
-        padding: const EdgeInsets.only(bottom: 20, left: 20, right: 20),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            //Default Price
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-              crossAxisAlignment: CrossAxisAlignment.center,
-              children: [
-                //Product Image
-                ClipRRect(
-                    borderRadius: BorderRadius.circular(10),
-                    child: Image.network(widget.imageUrl, height: 100, width: 100)),
-                //Space
-
-                Text(
-                  sizePrice?.sizeText ?? "",
-                  textAlign: TextAlign.left,
-                  style: TextStyle(
-                    color: Colors.red,
-                    fontSize: 16,
-                  ),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.center,
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          //Default Price
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: [
+              //Product Image
+              ClipRRect(
+                  borderRadius: BorderRadius.circular(10),
+                  child:
+                      Image.network(widget.imageUrl, height: 100, width: 100)),
+              Text(
+                sizePrice?.sizeText ?? "",
+                textAlign: TextAlign.left,
+                style: TextStyle(
+                  color: Colors.red,
+                  fontSize: 16,
                 ),
-                //
-                SizedBox(
-                  height: widget.sizePriceList.length * 30,
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      for (var element in widget.sizePriceList) ...[
-                        Text(
-                          "${element.price} Ks",
-                          textAlign: sizePrice == element
-                              ? TextAlign.right
-                              : TextAlign.center,
-                          style: TextStyle(
-                            decoration: sizePrice == element
-                                ? TextDecoration.none
-                                : TextDecoration.lineThrough,
-                            fontSize: sizePrice == element ? 18 : 14,
-                            color: sizePrice == element
-                                ? homeIndicatorColor
-                                : Colors.black,
-                          ),
-                        ),
-                      ],
-                    ],
-                  ),
-                ),
-              ],
-            ),
-            //
-
-            SizedBox(
-              height: 10,
-            ),
-            //SizePrice
-            SizedBox(
-              height: 80,
-              child: Wrap(
-                children: widget.sizePriceList.map((element) {
-                  return Padding(
-                    padding: const EdgeInsets.only(left: 7, right: 7),
-                    child: OutlinedButton(
-                      style: OutlinedButton.styleFrom(
-                        side: BorderSide(
-                          color: sizePrice?.id == element.id
-                              ? homeIndicatorColor
-                              : Colors.grey,
-                        ),
-                      ),
-                      onPressed: () {
-                        //TODO: CHANGE SIZEPRICE
-                        setState(() {
-                          sizePrice = element;
-                        });
-                      },
-                      child: Text(
-                        element.sizeText,
-                        style: TextStyle(color: Colors.red),
-                      ),
-                    ),
-                  );
-                }).toList(),
               ),
-            ),
-            SizedBox(height: 20),
-            //Price Wholesale (or) Retail
-            Row(
-              children: [
-                SizedBox(
-                  width: 190,
-                  child: DropdownButtonFormField(
-                    value: discountPercentage,
-                    hint: Text(
-                      "Price",
-                      style: TextStyle(fontSize: 12),
+              //
+              SizedBox(
+                height: widget.sizePriceList.length * 30,
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    for (var element in widget.sizePriceList) ...[
+                      Text(
+                        "${element.price}",
+                        textAlign: sizePrice == element
+                            ? TextAlign.right
+                            : TextAlign.center,
+                        style: TextStyle(
+                          decoration: sizePrice == element
+                              ? TextDecoration.none
+                              : TextDecoration.lineThrough,
+                          fontSize: sizePrice == element ? 20 : 12,
+                          color: sizePrice == element
+                              ? homeIndicatorColor
+                              : Colors.black,
+                        ),
+                      ),
+                    ],
+                  ],
+                ),
+              ),
+            ],
+          ),
+          SizedBox(
+            height: 10,
+          ),
+          //SizePrice
+          SizedBox(
+            height: 80,
+            child: Wrap(
+              children: widget.sizePriceList.map((element) {
+                return Padding(
+                  padding: const EdgeInsets.only(left: 7, right: 7),
+                  child: OutlinedButton(
+                    style: OutlinedButton.styleFrom(
+                      side: BorderSide(
+                        color: sizePrice?.id == element.id
+                            ? homeIndicatorColor
+                            : Colors.grey,
+                      ),
                     ),
-                    onChanged: (String? e) {
-                      discountPercentage = e;
+                    onPressed: () {
+                      //TODO: CHANGE SIZEPRICE
+                      setState(() {
+                        sizePrice = element;
+                      });
                     },
-                    items:
-                    List.generate(widget.discountPercentageList.length, (index) {
-                      final discountText =
-                          widget.discountPercentageList[index].discountText;
-                      final percentText =
-                          widget.discountPercentageList[index].percentage;
-                      return DropdownMenuItem(
-                        onTap: () => discountPercentageObj =
-                        widget.discountPercentageList[index],
-                        value: "$discountText $percentText%",
+                    child: Text(
+                      element.sizeText,
+                      style: TextStyle(color: Colors.red),
+                    ),
+                  ),
+                );
+              }).toList(),
+            ),
+          ),
+          SizedBox(height: 20),
+          //
+          SizedBox(
+            width: 120,
+            child: DropdownButtonFormField(
+              value: colorValue,
+              hint: Text(
+                'Color',
+                style: TextStyle(fontSize: 12),
+              ),
+              onChanged: (String? e) {
+                colorValue = e;
+              },
+              items: controller.selectedItem.value.color
+                  .split(',')
+                  .map((e) => DropdownMenuItem(
+                        value: e,
                         child: Text(
-                          "$discountText $percentText%",
-                          overflow: TextOverflow.ellipsis,
+                          e,
                           style: TextStyle(fontSize: 12),
                         ),
-                      );
-                    }),
-                  ),
-                ),
+                      ))
+                  .toList(),
+            ),
+          ),
 
-                SizedBox(width: 30),
-
-                SizedBox(
-                  width: 120,
-                  child: DropdownButtonFormField(
-                    value: colorValue,
-                    hint: Text(
-                      'Color',
-                      style: TextStyle(fontSize: 12),
-                    ),
-                    onChanged: (String? e) {
-                      colorValue = e;
-                    },
-                    items: controller.selectedItem.value.color
-                        .split(',')
-                        .map((e) => DropdownMenuItem(
-                      value: e,
-                      child: Text(
-                        e,
-                        style: TextStyle(fontSize: 12),
-                      ),
-                    ))
-                        .toList(),
-                  ),
-                ),
-              ],
-            ),
-            SizedBox(
-              height: 10,
-            ),
-            Padding(
-              padding: const EdgeInsets.only(top: 20),
-              child: Center(
-                child: ElevatedButton(
-                  style: buttonStyle,
-                  onPressed: () {
-                    final mainPrice = controller.getMainPrice(
-                      sizePrice?.price ?? 0,
-                      discountPercentageObj?.discountText ?? "0",
-                      discountPercentageObj?.percentage ?? 0,
-                    );
-                    if (colorValue != null &&
-                        !(sizePrice == null) & !(discountPercentage == null) &&
-                        !(discountPercentageObj == null) &&
-                        mainPrice != 0) {
-                      controller.addToCart(
-                          controller.selectedItem.value,
-                          colorValue!,
-                          "${sizePrice!.sizeText}\n$discountPercentage",
-                          mainPrice.round());
-                      Get.to(HomeScreen());
-                    }
-                  },
-                  child: Text("၀ယ်ယူရန်"),
-                ),
-              ),
-            ),
-          ],
-        ),
+          SizedBox(
+            height: 10,
+          ),
+          ElevatedButton(
+            style: buttonStyle,
+            onPressed: () {
+              if (colorValue != null && !(sizePrice == null)) {
+                controller.addToCart(controller.selectedItem.value, colorValue!,
+                    sizePrice!.sizeText, sizePrice?.price ?? 0);
+                Get.to(HomeScreen());
+              }
+            },
+            child: Text("၀ယ်ယူရန်"),
+          ),
+        ],
       ),
     );
   }

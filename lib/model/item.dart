@@ -1,6 +1,5 @@
 import 'package:freezed_annotation/freezed_annotation.dart';
 
-import 'discount_percentage.dart';
 import 'size_price.dart';
 
 part 'item.freezed.dart';
@@ -22,7 +21,6 @@ class ItemModel with _$ItemModel {
     required int discountprice,
     required String color,
     required List<SizePrice> sizePrice,
-    required List<DiscountPercentage> discountPercentage,
     required int star,
     required String category,
   }) = _ItemModel;
@@ -43,7 +41,6 @@ class ItemModel with _$ItemModel {
         discountprice: 0,
         color: '',
         sizePrice: [],
-        discountPercentage: [],
         star: 0,
         category: '',
       );
@@ -54,7 +51,9 @@ class PurchaseItem {
   final int count;
   final String size;
   final String color;
+  final bool isHotDeal;
   final int price;
 
-  PurchaseItem(this.id, this.count, this.size, this.color, this.price);
+  PurchaseItem(
+      this.id, this.count, this.size, this.color, this.isHotDeal, this.price);
 }

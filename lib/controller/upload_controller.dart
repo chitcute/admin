@@ -3,7 +3,6 @@ import 'package:get/get.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:kozarni_ecome/controller/home_controller.dart';
 import 'package:kozarni_ecome/data/constant.dart';
-import 'package:kozarni_ecome/model/discount_percentage.dart';
 import 'package:kozarni_ecome/model/item.dart';
 import 'package:kozarni_ecome/model/size_price.dart';
 import 'package:kozarni_ecome/service/api.dart';
@@ -39,11 +38,6 @@ class UploadController extends GetxController {
         key: (element) => element.id,
         value: (element) => element,
       );
-      discountPercentageMap.value = Map.fromIterable(
-        _homeController.editItem.value.discountPercentage,
-        key: (element) => element.id,
-        value: (element) => element,
-      );
     }
   }
 
@@ -69,8 +63,6 @@ class UploadController extends GetxController {
   final TextEditingController starController = TextEditingController();
   final TextEditingController categoryController = TextEditingController();
   RxMap<String, SizePrice> sizePriceMap = <String, SizePrice>{}.obs;
-  RxMap<String, DiscountPercentage> discountPercentageMap =
-      <String, DiscountPercentage>{}.obs;
 
   //Add SIZEPRICE object into List
   void addSizePrice() {
@@ -94,30 +86,6 @@ class UploadController extends GetxController {
     sizePriceMap.remove(id);
   }
 
-  //Add DiscountPercentage object into List
-  void addDiscountPercentage() {
-    final obj = DiscountPercentage.empty();
-    discountPercentageMap.putIfAbsent(obj.id, () => obj);
-  }
-
-  //Change DiscountPercentage's discounttext
-  void changeDiscountText(String value, String id) {
-    discountPercentageMap[id] =
-        discountPercentageMap[id]!.copyWith(discountText: value);
-  }
-
-  //Change discountPercentage's percentage
-  void changePercentage(String value, String id) {
-    discountPercentageMap[id] = discountPercentageMap[id]!.copyWith(
-      percentage: value.isEmpty ? 0 : int.parse(value),
-    );
-  }
-
-  //Delete SizePrice
-  void deleteDiscountPercentage(String id) {
-    discountPercentageMap.remove(id);
-  }
-
   Future<void> pickImage() async {
     try {
       final XFile? _file =
@@ -134,9 +102,6 @@ class UploadController extends GetxController {
     if (sizePriceMap.isNotEmpty) {
       isEmptySizePrice.value = false;
     }
-    if (discountPercentageMap.isNotEmpty) {
-      isEmptyDiscountPercentage.value = false;
-    }
     if (isUploading.value) return;
     try {
       isUploading.value = true;
@@ -145,8 +110,7 @@ class UploadController extends GetxController {
 
           // filePath.value.isNotEmpty
           &&
-          sizePriceMap.isNotEmpty &&
-          discountPercentageMap.isNotEmpty) {
+          sizePriceMap.isNotEmpty) {
         final DateTime dateTime = DateTime.now();
 
         // await _api.uploadFile(
@@ -175,9 +139,6 @@ class UploadController extends GetxController {
                   desc: desc.text,
                   category: categoryController.text,
                   sizePrice: sizePriceMap.entries.map((e) => e.value).toList(),
-                  discountPercentage: discountPercentageMap.entries
-                      .map((e) => e.value)
-                      .toList(),
                 )
                 .toJson(),
           );
@@ -200,9 +161,6 @@ class UploadController extends GetxController {
                   desc: desc.text,
                   category: categoryController.text,
                   sizePrice: sizePriceMap.entries.map((e) => e.value).toList(),
-                  discountPercentage: discountPercentageMap.entries
-                      .map((e) => e.value)
-                      .toList(),
                 )
                 .toJson(),
           );
@@ -226,15 +184,11 @@ class UploadController extends GetxController {
         isEmptySizePrice.value = false;
         isEmptyDiscountPercentage.value = false;
         sizePriceMap.clear();
-        discountPercentageMap.clear();
         return;
       } else {
         sizePriceMap.isEmpty
             ? isEmptySizePrice.value = true
             : isEmptySizePrice.value = false; //to show error
-        discountPercentageMap.isEmpty
-            ? isEmptyDiscountPercentage.value = true
-            : isEmptyDiscountPercentage.value = false;
       }
       isUploading.value = false;
       Get.snackbar('Required', 'Image is required');

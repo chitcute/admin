@@ -8,8 +8,6 @@ import 'package:get/state_manager.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:kozarni_ecome/data/constant.dart';
 import 'package:kozarni_ecome/data/enum.dart';
-import 'package:kozarni_ecome/model/discount_percentage.dart';
-import 'package:kozarni_ecome/model/hive_discount_percentage.dart';
 import 'package:kozarni_ecome/model/hive_item.dart';
 import 'package:kozarni_ecome/model/hive_size_price.dart';
 import 'package:kozarni_ecome/model/item.dart';
@@ -51,6 +49,12 @@ class HomeController extends GetxController {
 
   final RxList<PurchaseItem> myCart = <PurchaseItem>[].obs;
   Map<String, dynamic> townShipNameAndFee = {}; //Township Name and Fee
+  var discountPercentage = 0.obs; //Discount Percentage For Usual Product
+  var totalUsualPrice = 0.obs; //Total Usual Product Addition Price
+  var totalHotPrice = 0.obs; //Total Hot Product Addition Price
+  var discountPrice = 0.0.obs;
+  var totalUsualProductCount = 0.obs;
+  var totalHotProductCount = 0.obs;
 
   int mouseIndex = -1; //Mouse Region
 
@@ -98,6 +102,7 @@ class HomeController extends GetxController {
   }
 
   void addToCart(ItemModel itemModel, String color, String size, int price) {
+    final isHotSales = itemModel.category == "Hot Sales";
     try {
       final PurchaseItem _item = myCart.firstWhere(
         (item) =>
@@ -113,13 +118,17 @@ class HomeController extends GetxController {
             element.count + 1,
             element.size,
             element.color,
+            element.isHotDeal,
             element.price,
           );
         }
         return element;
       }).toList();
     } catch (e) {
-      myCart.add(PurchaseItem(itemModel.id, 1, size, color, price));
+      final hotOrUsual = isHotSales ? "Hot Deals" : "Usual Deals";
+      //This is the first item.not already contain before.So,we add new one
+      myCart.add(PurchaseItem(
+          itemModel.id, 1, "$size\n $hotOrUsual", color, isHotSales, price));
     }
   }
 
@@ -130,6 +139,7 @@ class HomeController extends GetxController {
       discount = int.parse(discountText.split(" ").first);
     } catch (e) {
       discount = 0;
+      debugPrint("*******************Discount Text Error");
       //TODO: TO SHOW it was wrong when upload discountText when admin upload.
     }
     double discountPrice = 0;
@@ -138,6 +148,12 @@ class HomeController extends GetxController {
       discountPrice = originalPrice - (originalPrice * (percentage / 100));
     }
     return discountPrice;
+  }
+
+  double getSubtotalPrice(int usualPrice, int hotPrice) {
+    discountPrice.value =
+        usualPrice - (usualPrice * (discountPercentage.value / 100));
+    return discountPrice.value + hotPrice;
   }
 
   final RxList<ItemModel> items = <ItemModel>[].obs;
@@ -200,12 +216,14 @@ class HomeController extends GetxController {
     myCart.value = myCart.map((element) {
       if (element.id == p.id &&
           element.color == p.color &&
-          element.size == p.size) {
+          element.size == p.size &&
+          element.isHotDeal == p.isHotDeal) {
         return PurchaseItem(
           element.id,
           element.count + 1,
           element.size,
           element.color,
+          element.isHotDeal,
           element.price,
         );
       }
@@ -223,7 +241,7 @@ class HomeController extends GetxController {
           element.size == p.size) {
         if (element.count > 1) {
           return PurchaseItem(element.id, element.count - 1, element.size,
-              element.color, element.price);
+              element.color, element.isHotDeal, element.price);
         }
         needToRemove = true;
         return element;
@@ -239,20 +257,39 @@ class HomeController extends GetxController {
     updateSubTotal(true);
   }
 
-  int subTotal = 0;
+  double subTotal = 0;
   void updateSubTotal(bool isUpdate) {
     if (subTotal != 0) {
       subTotal = 0;
     }
-    int price = 0;
+    //int price = 0;
+    int usualPrice = 0;
+    int hotSalePrice = 0;
+    int hotSaleCount = 0;
+    int usualSaleCount = 0;
     for (var i = 0; i < myCart.length; i++) {
-      //print(items.firstWhere((element) => element.id == myCart[i].id).price);
-      debugPrint("**********each price:$i: ${myCart[i].price}");
-      /* price += items.firstWhere((element) => element.id == myCart[i].id).price *
-          myCart[i].count;*/
-      price += myCart[i].price * myCart[i].count;
+      if (myCart[i].isHotDeal) {
+        hotSalePrice += myCart[i].price * myCart[i].count;
+        hotSaleCount += myCart[i].count;
+      } else {
+        usualPrice += myCart[i].price * myCart[i].count;
+        usualSaleCount += myCart[i].count;
+      }
+    } //When Loop is complete we calculate all criteria
+    if (usualSaleCount < 3) {
+      discountPercentage.value = 0;
+    } else if (usualSaleCount >= 3 && usualSaleCount <= 4) {
+      discountPercentage.value = 3;
+    } else if (usualSaleCount >= 5 && usualSaleCount <= 9) {
+      discountPercentage.value = 5;
+    } else if (usualSaleCount >= 10) {
+      discountPercentage.value = 10;
     }
-    subTotal = price;
+    subTotal = getSubtotalPrice(usualPrice, hotSalePrice);
+    totalUsualPrice.value = usualPrice;
+    totalHotPrice.value = hotSalePrice;
+    totalUsualProductCount.value = usualSaleCount;
+    totalHotProductCount.value = hotSaleCount;
     debugPrint("*************$subTotal");
     if (isUpdate) {
       update();
@@ -280,13 +317,6 @@ class HomeController extends GetxController {
                 price: e.price,
               ))
           .toList(),
-      discountPercentage: model.discountPercentage
-          .map((e) => HiveDiscountPercentage(
-                id: e.id,
-                discountText: e.discountText,
-                percentage: e.percentage,
-              ))
-          .toList(),
       star: model.star,
       category: model.category,
     );
@@ -311,13 +341,6 @@ class HomeController extends GetxController {
                 id: e.id,
                 sizeText: e.sizeText,
                 price: e.price,
-              ))
-          .toList(),
-      discountPercentage: model.discountPercentage
-          .map((e) => DiscountPercentage(
-                id: e.id,
-                discountText: e.discountText,
-                percentage: e.percentage,
               ))
           .toList(),
       star: model.star,
@@ -357,6 +380,7 @@ class HomeController extends GetxController {
           townShipNameAndFee["townName"],
           townShipNameAndFee["fee"]
         ],
+        totalPrice: subTotal,
       );
       await _database.writePurchaseData(_purchase).then((value) {
         Get.snackbar("လူကြီးမင်း Order တင်ခြင်း", 'အောင်မြင်ပါသည်');

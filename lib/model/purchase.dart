@@ -6,6 +6,7 @@ class PurchaseModel {
   final String name;
   final String email;
   final int phone;
+  final double totalPrice;
   final String address;
   final String? bankSlipImage;
   final List deliveryTownshipInfo;
@@ -17,6 +18,7 @@ class PurchaseModel {
     required this.name,
     required this.email,
     required this.phone,
+    required this.totalPrice,
     required this.address,
     required this.deliveryTownshipInfo,
     required this.bankSlipImage,
@@ -31,6 +33,7 @@ class PurchaseModel {
     String? email,
     int? phone,
     String? address,
+    double? totalPrice,
     String? bankSlipImage,
     List? deliveryTownshipInfo,
     DateTime? dateTime,
@@ -40,6 +43,7 @@ class PurchaseModel {
         name: name ?? this.name,
         email: email ?? this.email,
         phone: phone ?? this.phone,
+        totalPrice: totalPrice ?? this.totalPrice,
         address: address ?? this.address,
         deliveryTownshipInfo: deliveryTownshipInfo ?? this.deliveryTownshipInfo,
         bankSlipImage: bankSlipImage ?? this.bankSlipImage,
@@ -52,6 +56,7 @@ class PurchaseModel {
         name: json['name'] as String,
         email: json['email'] as String,
         phone: json['phone'] as int,
+        totalPrice: json['totalPrice'] as double,
         address: json['address'] as String,
         bankSlipImage: json['bankSlipImage'] as String?,
         deliveryTownshipInfo: json['deliveryTownshipInfo'] as List,
@@ -68,6 +73,7 @@ class PurchaseModel {
         'name': name,
         'email': email,
         'phone': phone,
+        'totalPrice': totalPrice,
         'address': address,
         'bankSlipImage': bankSlipImage,
         'deliveryTownshipInfo': deliveryTownshipInfo,

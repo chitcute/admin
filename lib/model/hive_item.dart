@@ -1,12 +1,10 @@
 import 'package:hive/hive.dart';
 
-import 'discount_percentage.dart';
-import 'hive_discount_percentage.dart';
 import 'hive_size_price.dart';
 
 part 'hive_item.g.dart';
 
-@HiveType(typeId: 3)
+@HiveType(typeId: 4)
 class HiveItem {
   @HiveField(0)
   String id;
@@ -32,8 +30,6 @@ class HiveItem {
   String color;
   @HiveField(11)
   List<HiveSizePrice> sizePrice;
-  @HiveField(12)
-  List<HiveDiscountPercentage> discountPercentage;
   @HiveField(13)
   int star;
   @HiveField(14)
@@ -51,7 +47,6 @@ class HiveItem {
     required this.desc,
     required this.color,
     required this.sizePrice,
-    required this.discountPercentage,
     required this.star,
     required this.category,
   });

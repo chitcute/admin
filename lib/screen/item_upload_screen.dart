@@ -6,7 +6,6 @@ import 'package:kozarni_ecome/controller/home_controller.dart';
 import 'package:kozarni_ecome/controller/upload_controller.dart';
 import 'package:kozarni_ecome/data/constant.dart';
 import 'package:kozarni_ecome/model/item.dart';
-import 'package:kozarni_ecome/widgets/discount_percentage_widget.dart';
 import 'package:kozarni_ecome/widgets/sizeprice_item_widget.dart';
 
 class UploadItem extends StatefulWidget {
@@ -283,40 +282,6 @@ class _UploadItemState extends State<UploadItem> {
                 ? sizePriceListWidget()
                 : const SizedBox(height: 0)),
             //
-            //Add Discount Percentage Button
-            Padding(
-              padding: EdgeInsets.only(
-                top: 20,
-                left: 20,
-                right: 20,
-              ),
-              child: Obx(() {
-                return Container(
-                    decoration: BoxDecoration(
-                        border: Border.all(
-                      color: controller.isEmptyDiscountPercentage.value
-                          ? Colors.red
-                          : Colors.white,
-                    )),
-                    height: 50,
-                    width: 100,
-                    child: Row(children: [
-                      //Add Icon
-                      IconButton(
-                        onPressed: () => controller.addDiscountPercentage(),
-                        icon: Icon(FontAwesomeIcons.plusCircle,
-                            color: Colors.black),
-                      ),
-                      //Text
-                      Text("Add Discount Percentage"),
-                    ]));
-              }),
-            ),
-            //SizePrice Widget if list is not empty
-            Obx(() => controller.discountPercentageMap.isNotEmpty
-                ? discountPercentageListWidget()
-                : const SizedBox(height: 0)),
-            //
             Padding(
               padding: EdgeInsets.only(
                 top: 20,
@@ -389,29 +354,6 @@ class _UploadItemState extends State<UploadItem> {
                 id: map.key,
                 sizeText: map.value.sizeText,
                 price: "${map.value.price}",
-              );
-            }).toList(),
-          ));
-    });
-  }
-
-  discountPercentageListWidget() {
-    return Obx(() {
-      return AnimatedContainer(
-          height: (controller.discountPercentageMap.length * 50) + 80,
-          curve: Curves.easeInOut,
-          duration: const Duration(milliseconds: 600),
-          padding: const EdgeInsets.only(
-            left: 20,
-            right: 20,
-          ),
-          child: ListView(
-            children: controller.discountPercentageMap.entries.map((map) {
-              return DiscountPercentageWidget(
-                key: ValueKey(map.key),
-                id: map.key,
-                discountText: map.value.discountText,
-                percentage: "${map.value.percentage}",
               );
             }).toList(),
           ));

@@ -83,7 +83,7 @@ class _CheckOutScreenState extends State<CheckOutScreen> {
                         },
                         child: Center(
                           child: Text(
-                            "Order တင်မည်",
+                            "Submit Order",
                           ),
                         ),
                       )
@@ -103,7 +103,7 @@ class _CheckOutScreenState extends State<CheckOutScreen> {
                 Step(
                   isActive: controller.checkOutStep >= 1,
                   state: StepState.indexed,
-                  title: Text("Order Confirmation"),
+                  title: Text("Payment"),
                   content: controller.paymentOptions == PaymentOptions.PrePay
                       ? prePayWidget(context)
                       : SizedBox(height: 0, width: 0),
@@ -267,11 +267,11 @@ Widget prePayWidget(BuildContext context) {
                   shape: RoundedRectangleBorder(
                 side: BorderSide(color: Colors.black, width: 2),
                 borderRadius: BorderRadius.all(
-                  Radius.circular(10),
+                  Radius.circular(20),
                 ),
               )),
               onPressed: () => getBankSlip(controller),
-              child: Text("KBZ Pay / KBZ / AYA Screenshot"),
+              child: Text("Choose Bank Slip"),
             ),
             //Image String
             Obx(
@@ -386,7 +386,6 @@ class _FormWidgetState extends State<FormWidget> {
                 ),
               ),
             ),
-
             Padding(
               padding: const EdgeInsets.only(top: 20, right: 20, left: 20),
               child: TextFormField(
@@ -423,7 +422,7 @@ class _FormWidgetState extends State<FormWidget> {
                 ),
               ),
             ),
-
+            
             Container(
               width: double.infinity,
               height: 50,
@@ -448,7 +447,7 @@ class _FormWidgetState extends State<FormWidget> {
                     Get.snackbar("လူကြီးမင်း Order တင်ခြင်း", 'အောင်မြင်ပါသည်');*/
                   }
                 },
-                child: Text('သိမ်းထားမည်'),
+                child: Text('Save'),
               ),
             ),
           ],

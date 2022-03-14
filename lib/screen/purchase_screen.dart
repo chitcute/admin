@@ -66,20 +66,13 @@ class PurchaseScreen extends StatelessWidget {
               "${controller.purchcasesCashOn()[i].dateTime?.day}/${controller.purchcasesCashOn()[i].dateTime?.month}/${controller.purchcasesCashOn()[i].dateTime?.year}"),
           trailing: IconButton(
             onPressed: () {
-              int total = 0;
-              for (var item in controller.purchcasesCashOn()[i].items) {
-                total += int.parse(item.toString().split(',').last) *
-                    int.parse(item.toString().split(',')[3]);
-              }
-
-              print(controller.purchcasesCashOn()[i].items.length);
               Get.defaultDialog(
                 title: "Customer ၀ယ်ယူခဲ့သော အချက်အလက်များ",
                 titleStyle: TextStyle(fontSize: 12),
                 radius: 5,
                 content: purchaseDialogBox(
                     i: i,
-                    total: total,
+                    total: controller.purchcasesCashOn()[i].totalPrice,
                     shipping: shipping,
                     township: townName,
                     list: controller.purchcasesCashOn()),
@@ -113,13 +106,6 @@ class PurchaseScreen extends StatelessWidget {
                     flex: 2,
                     child: ListTile(
                       onTap: () {
-                        int total = 0;
-                        for (var item
-                            in controller.purchcasesPrePay()[i].items) {
-                          total += int.parse(item.toString().split(',').last) *
-                              int.parse(item.toString().split(',')[3]);
-                        }
-
                         print(controller.purchcasesPrePay()[i].items.length);
                         Get.defaultDialog(
                           title: "Customer ၀ယ်ယူခဲ့သော အချက်အလက်များ",
@@ -127,7 +113,8 @@ class PurchaseScreen extends StatelessWidget {
                           radius: 5,
                           content: purchaseDialogBox(
                               i: i,
-                              total: total,
+                              total:
+                                  controller.purchcasesPrePay()[i].totalPrice,
                               shipping: shipping,
                               township: townName,
                               list: controller.purchcasesPrePay()),
@@ -226,7 +213,7 @@ class PurchaseScreen extends StatelessWidget {
 
   Widget purchaseDialogBox({
     required int i,
-    required int total,
+    required double total,
     required int shipping,
     required String township,
     required List<PurchaseModel> list,
@@ -355,7 +342,7 @@ class PurchaseScreen extends StatelessWidget {
                     ),
                   ),
                   Text(
-                    "${list[i].items[o].toString().split(',').last} x  ${list[i].items[o].toString().split(',')[3]}",
+                    "${list[i].items[o].toString().split(',').last} x  ${list[i].items[o].toString().split(',')[3]} ထည်",
                     style: TextStyle(fontSize: 10),
                   ),
                 ],

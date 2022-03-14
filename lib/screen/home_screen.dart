@@ -104,7 +104,7 @@ class _HomeScreenState extends State<HomeScreen> {
         backgroundColor: appBarColor,
         elevation: 0,
         title: Text(
-          "     Chit Cute Kids & Baby",
+          "Chit Cute Kids & Baby",
           style: TextStyle(
             fontSize: 16,
             fontWeight: FontWeight.bold,
@@ -113,25 +113,28 @@ class _HomeScreenState extends State<HomeScreen> {
         ),
         // centerTitle: true,
         actions: [
-          ElevatedButton(
-            style: ButtonStyle(
-              alignment: Alignment.center,
-              backgroundColor: MaterialStateProperty.all(Colors.white),
-              elevation: MaterialStateProperty.resolveWith<double>(
-                // As you said you dont need elevation. I'm returning 0 in both case
-                (Set<MaterialState> states) {
-                  if (states.contains(MaterialState.disabled)) {
-                    return 0;
-                  }
-                  return 0; // Defer to the widget's default.
-                },
+          SizedBox(
+            width: 50,
+            child: ElevatedButton(
+              style: ButtonStyle(
+                alignment: Alignment.center,
+                backgroundColor: MaterialStateProperty.all(Colors.white),
+                elevation: MaterialStateProperty.resolveWith<double>(
+                  // As you said you dont need elevation. I'm returning 0 in both case
+                  (Set<MaterialState> states) {
+                    if (states.contains(MaterialState.disabled)) {
+                      return 0;
+                    }
+                    return 0; // Defer to the widget's default.
+                  },
+                ),
               ),
-            ),
-            onPressed: () => Get.toNamed(searchScreen),
-            child: FaIcon(
-              FontAwesomeIcons.search,
-              color: Colors.black,
-              size: 20,
+              onPressed: () => Get.toNamed(searchScreen),
+              child: FaIcon(
+                FontAwesomeIcons.search,
+                color: Colors.black,
+                size: 23,
+              ),
             ),
           ),
           // InkWell(

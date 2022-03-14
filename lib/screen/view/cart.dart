@@ -101,9 +101,12 @@ class CartView extends StatelessWidget {
           ),
         ),
         GetBuilder<HomeController>(builder: (controller) {
+          final deliveryFee = controller.townShipNameAndFee["fee"];
+          final showDiscountOrNot =
+              controller.discountPercentage >= 3 ? "လျော့ပြီး" : "";
           return Container(
             width: double.infinity,
-            height: 200,
+            height: 250,
             child: Card(
               margin: EdgeInsets.only(
                 top: 10,
@@ -113,7 +116,64 @@ class CartView extends StatelessWidget {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
+                  //Usual Product
                   Padding(
+                    padding: const EdgeInsets.only(
+                      top: 10,
+                      left: 10,
+                      right: 10,
+                    ),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Text(
+                          "ပုံမှန် အထည် အတွက် ကျသင့်ငွေ\n"
+                          "${controller.totalUsualProductCount} ခု ၊ ${controller.discountPercentage}% $showDiscountOrNot",
+                          style: TextStyle(
+                            fontSize: 12,
+                            fontWeight: FontWeight.w400,
+                          ),
+                        ),
+                        Text(
+                          "${controller.discountPrice} ကျပ်",
+                          style: TextStyle(
+                            fontSize: 12,
+                            fontWeight: FontWeight.w400,
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                  //Hot Special Product
+                  Padding(
+                    padding: const EdgeInsets.only(
+                      top: 10,
+                      left: 10,
+                      right: 10,
+                    ),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Text(
+                          "Promotion အထည် အတွက် ကျသင့်ငွေ\n"
+                          "${controller.totalHotProductCount} ခု ၊ 0% ",
+                          style: TextStyle(
+                            fontSize: 12,
+                            fontWeight: FontWeight.w400,
+                          ),
+                        ),
+                        Text(
+                          "${controller.totalHotPrice} ကျပ်",
+                          style: TextStyle(
+                            fontSize: 12,
+                            fontWeight: FontWeight.w400,
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                  //////////////////////
+                  /* Padding(
                     padding: const EdgeInsets.only(
                       top: 10,
                       left: 10,
@@ -138,7 +198,7 @@ class CartView extends StatelessWidget {
                         ),
                       ],
                     ),
-                  ),
+                  ),*/
                   Padding(
                     padding: const EdgeInsets.only(
                       top: 10,
@@ -149,7 +209,7 @@ class CartView extends StatelessWidget {
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
                         Text(
-                          "ပို့ဆောင်စရိတ်",
+                          "အိမ်အရောက်ပို့ခ",
                           style: TextStyle(
                             fontSize: 12,
                             fontWeight: FontWeight.w400,
@@ -340,9 +400,9 @@ Widget divisionDialogWidget() {
 Widget townShipDialog({required Division division}) {
   HomeController _controller = Get.find();
   return Align(
-    alignment: Alignment.topCenter,
+    alignment: Alignment.center,
     child: Container(
-      width: 270,
+      width: 200,
       height: MediaQuery.of(Get.context!).size.height * 0.4,
       decoration: BoxDecoration(
         border: Border(
