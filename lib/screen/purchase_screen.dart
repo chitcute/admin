@@ -19,7 +19,7 @@ class PurchaseScreen extends StatelessWidget {
         backgroundColor: scaffoldBackground,
         appBar: AppBar(
           title: Text(
-            "     Chit Cute Kids & Baby",
+            "Chit Cute Admin",
             style: TextStyle(color: Colors.black, fontSize: 14),
           ),
           elevation: 5,
@@ -213,7 +213,7 @@ class PurchaseScreen extends StatelessWidget {
 
   Widget purchaseDialogBox({
     required int i,
-    required double total,
+    required int total,
     required int shipping,
     required String township,
     required List<PurchaseModel> list,

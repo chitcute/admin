@@ -257,7 +257,7 @@ class HomeController extends GetxController {
     updateSubTotal(true);
   }
 
-  double subTotal = 0;
+  int subTotal = 0;
   void updateSubTotal(bool isUpdate) {
     if (subTotal != 0) {
       subTotal = 0;
@@ -285,7 +285,7 @@ class HomeController extends GetxController {
     } else if (usualSaleCount >= 10) {
       discountPercentage.value = 10;
     }
-    subTotal = getSubtotalPrice(usualPrice, hotSalePrice);
+    subTotal = getSubtotalPrice(usualPrice, hotSalePrice).round();
     totalUsualPrice.value = usualPrice;
     totalHotPrice.value = hotSalePrice;
     totalUsualProductCount.value = usualSaleCount;

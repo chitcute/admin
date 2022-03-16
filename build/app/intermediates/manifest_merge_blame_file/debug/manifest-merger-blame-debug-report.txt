@@ -60,8 +60,8 @@
 34        android:debuggable="true"
 35        android:icon="@mipmap/ic_launcher"
 35-->/Users/zarnibwar/Desktop/Source Codes/chit cute/android/app/src/main/AndroidManifest.xml:5:9-43
-36        android:label="Chit Cute" >
-36-->/Users/zarnibwar/Desktop/Source Codes/chit cute/android/app/src/main/AndroidManifest.xml:4:9-34
+36        android:label="Chit Cute Admin" >
+36-->/Users/zarnibwar/Desktop/Source Codes/chit cute/android/app/src/main/AndroidManifest.xml:4:9-40
 37        <activity
 37-->/Users/zarnibwar/Desktop/Source Codes/chit cute/android/app/src/main/AndroidManifest.xml:6:9-34:20
 38            android:name="com.kzn.chitcute.MainActivity"

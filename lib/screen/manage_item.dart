@@ -30,7 +30,7 @@ class _ManageItemState extends State<ManageItem> {
       backgroundColor: scaffoldBackground,
       appBar: AppBar(
         title: Text(
-          "Chit Cute Kids & Baby",
+          "Chit Cute Admin",
           style: TextStyle(color: Colors.black, fontSize: 14),
         ),
         elevation: 5,

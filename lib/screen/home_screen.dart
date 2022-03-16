@@ -104,7 +104,7 @@ class _HomeScreenState extends State<HomeScreen> {
         backgroundColor: appBarColor,
         elevation: 0,
         title: Text(
-          "Chit Cute Kids & Baby",
+          "Chit Cute Admin",
           style: TextStyle(
             fontSize: 16,
             fontWeight: FontWeight.bold,

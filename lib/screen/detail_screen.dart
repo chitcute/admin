@@ -560,7 +560,7 @@ class _AddToCartState extends State<AddToCart> {
           ),
 
           SizedBox(
-            height: 10,
+            height: 30,
           ),
           ElevatedButton(
             style: buttonStyle,

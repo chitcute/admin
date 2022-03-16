@@ -32,6 +32,7 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return GetMaterialApp(
+      title: 'Chit Cute Admin',
       debugShowCheckedModeBanner: false,
       initialRoute: homeScreen,
       getPages: routes,

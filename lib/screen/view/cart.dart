@@ -135,7 +135,7 @@ class CartView extends StatelessWidget {
                           ),
                         ),
                         Text(
-                          "${controller.discountPrice} ကျပ်",
+                          "${(controller.discountPrice).round()} ကျပ်",
                           style: TextStyle(
                             fontSize: 12,
                             fontWeight: FontWeight.w400,
@@ -208,17 +208,11 @@ class CartView extends StatelessWidget {
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
-                        Text(
-                          "အိမ်အရောက်ပို့ခ",
-                          style: TextStyle(
-                            fontSize: 12,
-                            fontWeight: FontWeight.w400,
-                          ),
-                        ),
+
 
                         ///DropDown TownShip List
                         Container(
-                          width: 180,
+                          width: 150,
                           height: 50,
                           child:
                               GetBuilder<HomeController>(builder: (controller) {
@@ -238,17 +232,32 @@ class CartView extends StatelessWidget {
                                   child: Text(
                                     controller.townShipNameAndFee["townName"] ??
                                         "မြို့နယ်",
-                                    overflow: TextOverflow.ellipsis,
+                                style: TextStyle(
+                                fontSize: 12,
+                              ),
                                     maxLines: 1,
                                   ),
                                 ),
                                 //DropDown Icon
                                 Expanded(
-                                    child: Icon(FontAwesomeIcons.angleDown)),
+                                    child: Icon(FontAwesomeIcons.angleUp)),
                               ]),
                             );
                           }),
                         ),
+
+                        Padding(
+                          padding: const EdgeInsets.only(right: 20),
+                          child: Text(
+                            "အိမ်အရောက်ပို့ခ",
+                            style: TextStyle(
+                              fontSize: 12,
+                              fontWeight: FontWeight.w400,
+                            ),
+                          ),
+                        ),
+
+
                         GetBuilder<HomeController>(builder: (controller) {
                           return Text(
                             controller.townShipNameAndFee.isEmpty
@@ -260,6 +269,8 @@ class CartView extends StatelessWidget {
                             ),
                           );
                         }),
+
+
                       ],
                     ),
                   ),
@@ -384,7 +395,8 @@ Widget divisionDialogWidget() {
                 duration: const Duration(milliseconds: 200),
                 child: Row(mainAxisAlignment: MainAxisAlignment.spaceAround, children: [
                   //Text
-                  Text(divisionList[divisionIndex].name),
+                  Text(divisionList[divisionIndex].name,
+                  ),
                   SizedBox(width: 10),
                   Icon(FontAwesomeIcons.angleRight),
                 ]),
