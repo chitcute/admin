@@ -218,7 +218,7 @@ class CartView extends StatelessWidget {
 
                         ///DropDown TownShip List
                         Container(
-                          width: 100,
+                          width: 180,
                           height: 50,
                           child:
                               GetBuilder<HomeController>(builder: (controller) {
@@ -382,7 +382,7 @@ Widget divisionDialogWidget() {
                     ? Colors.orange
                     : Colors.white,
                 duration: const Duration(milliseconds: 200),
-                child: Row(mainAxisAlignment: MainAxisAlignment.end, children: [
+                child: Row(mainAxisAlignment: MainAxisAlignment.spaceAround, children: [
                   //Text
                   Text(divisionList[divisionIndex].name),
                   SizedBox(width: 10),
@@ -402,8 +402,7 @@ Widget townShipDialog({required Division division}) {
   return Align(
     alignment: Alignment.center,
     child: Container(
-      width: 200,
-      height: MediaQuery.of(Get.context!).size.height * 0.4,
+      height: MediaQuery.of(Get.context!).size.height * 1,
       decoration: BoxDecoration(
         border: Border(
           top: BorderSide(),
@@ -432,7 +431,7 @@ Widget townShipDialog({required Division division}) {
                       Get.back();
                     },
                     child: Padding(
-                      padding: const EdgeInsets.only(left: 10, right: 10),
+                      padding: const EdgeInsets.only(left: 20, right: 20),
                       child: Align(
                         alignment: Alignment.centerLeft,
                         child: Text(map.value[index],
