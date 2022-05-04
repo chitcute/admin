@@ -6,7 +6,7 @@ class PurchaseModel {
   final String name;
   final String email;
   final int phone;
-  final int totalPrice;
+  final int totalPrice;  //Change Variable
   final String address;
   final String? bankSlipImage;
   final List deliveryTownshipInfo;
@@ -33,7 +33,7 @@ class PurchaseModel {
     String? email,
     int? phone,
     String? address,
-    int? totalPrice,
+    int? totalPrice,   //Change Double
     String? bankSlipImage,
     List? deliveryTownshipInfo,
     DateTime? dateTime,
@@ -56,7 +56,7 @@ class PurchaseModel {
         name: json['name'] as String,
         email: json['email'] as String,
         phone: json['phone'] as int,
-        totalPrice: json['totalPrice'] as int,
+        totalPrice: json['totalPrice'] as int, //Change Type
         address: json['address'] as String,
         bankSlipImage: json['bankSlipImage'] as String?,
         deliveryTownshipInfo: json['deliveryTownshipInfo'] as List,

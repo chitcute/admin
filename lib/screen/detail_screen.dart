@@ -113,7 +113,7 @@ class DetailScreen extends StatelessWidget {
                       Row(
                         children: List.generate(
                           5,
-                          (index) => Icon(
+                              (index) => Icon(
                             Icons.star,
                             size: 20,
                             color: index <= controller.selectedItem.value.star
@@ -125,10 +125,10 @@ class DetailScreen extends StatelessWidget {
                       //Favourite Icon
                       ValueListenableBuilder(
                         valueListenable:
-                            Hive.box<HiveItem>(boxName).listenable(),
+                        Hive.box<HiveItem>(boxName).listenable(),
                         builder: (context, Box<HiveItem> box, widget) {
                           final currentObj =
-                              box.get(controller.selectedItem.value.id);
+                          box.get(controller.selectedItem.value.id);
 
                           if (!(currentObj == null)) {
                             return IconButton(
@@ -217,7 +217,7 @@ class DetailScreen extends StatelessWidget {
                         Text(
                           "⏰ Delivery Time",
                           style: TextStyle(
-                            fontSize: 14,
+                            fontSize: 13,
                             fontWeight: FontWeight.bold,
                             color: Colors.grey,
                           ),
@@ -228,7 +228,7 @@ class DetailScreen extends StatelessWidget {
                         Text(
                           "Within 3 Days",
                           style: TextStyle(
-                            fontSize: 14,
+                            fontSize: 13,
                             fontWeight: FontWeight.bold,
                             color: Colors.black,
                           ),
@@ -240,7 +240,7 @@ class DetailScreen extends StatelessWidget {
                         Text(
                           "💁 Availability ",
                           style: TextStyle(
-                            fontSize: 14,
+                            fontSize: 13,
                             fontWeight: FontWeight.bold,
                             color: Colors.grey,
                           ),
@@ -251,7 +251,7 @@ class DetailScreen extends StatelessWidget {
                         Text(
                           controller.selectedItem.value.deliverytime,
                           style: TextStyle(
-                            fontSize: 14,
+                            fontSize: 13,
                             fontWeight: FontWeight.bold,
                             color: Colors.black,
                           ),
@@ -265,7 +265,7 @@ class DetailScreen extends StatelessWidget {
                         Text(
                           "📞 Contact Phone ",
                           style: TextStyle(
-                            fontSize: 14,
+                            fontSize: 13,
                             fontWeight: FontWeight.bold,
                             color: Colors.grey,
                           ),
@@ -276,7 +276,7 @@ class DetailScreen extends StatelessWidget {
                         Text(
                           "     09 44 33 99 751",
                           style: TextStyle(
-                            fontSize: 14,
+                            fontSize: 13,
                             fontWeight: FontWeight.bold,
                             color: Colors.black,
                           ),
@@ -296,21 +296,21 @@ class DetailScreen extends StatelessWidget {
                         child: ImageCachedFullscreen(
                           imageUrl: controller.selectedItem.value.photo,
                           imageBorderRadius: 7,
-                          imageWidth: 160,
+                          imageWidth: 150,
                           imageHeight: 200,
-                          imageFit: BoxFit.fitHeight,
+                          imageFit: BoxFit.cover,
                           imageDetailsHeight: double.infinity,
                           imageDetailsWidth: double.infinity,
                           imageDetailsFit: BoxFit.fitWidth,
                           withHeroAnimation: true,
                           placeholder: Container(),
                           placeholderDetails:
-                              Center(child: CircularProgressIndicator()),
+                          Center(child: CircularProgressIndicator()),
                         ),
                       ),
                     ),
                     SizedBox(
-                      width: 30,
+                      width: 40,
                     ),
                     Expanded(
                       child: Column(
@@ -323,16 +323,16 @@ class DetailScreen extends StatelessWidget {
                               child: ImageCachedFullscreen(
                                 imageUrl: controller.selectedItem.value.photo2,
                                 imageBorderRadius: 7,
-                                imageWidth: 160,
+                                imageWidth: 150,
                                 imageHeight: 200,
-                                imageFit: BoxFit.fitHeight,
+                                imageFit: BoxFit.cover,
                                 imageDetailsHeight: double.infinity,
                                 imageDetailsWidth: double.infinity,
                                 imageDetailsFit: BoxFit.fitWidth,
                                 withHeroAnimation: true,
                                 placeholder: Container(),
                                 placeholderDetails:
-                                    Center(child: CircularProgressIndicator()),
+                                Center(child: CircularProgressIndicator()),
                               ),
                             ),
                           ),
@@ -358,7 +358,7 @@ class DetailScreen extends StatelessWidget {
                         withHeroAnimation: true,
                         placeholder: Container(),
                         placeholderDetails:
-                            Center(child: CircularProgressIndicator()),
+                        Center(child: CircularProgressIndicator()),
                       ),
                     ),
                   ),
@@ -410,9 +410,9 @@ class DetailScreen extends StatelessWidget {
               context: context,
               shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.only(
-                topLeft: Radius.circular(20),
-                topRight: Radius.circular(20),
-              )),
+                    topLeft: Radius.circular(20),
+                    topRight: Radius.circular(20),
+                  )),
               builder: (context) {
                 return AddToCart(
                   sizePriceList: controller.selectedItem.value.sizePrice,
@@ -463,7 +463,7 @@ class _AddToCartState extends State<AddToCart> {
               ClipRRect(
                   borderRadius: BorderRadius.circular(10),
                   child:
-                      Image.network(widget.imageUrl, height: 100, width: 100)),
+                  Image.network(widget.imageUrl, height: 100, width: 100)),
               Text(
                 sizePrice?.sizeText ?? "",
                 textAlign: TextAlign.left,
@@ -549,18 +549,18 @@ class _AddToCartState extends State<AddToCart> {
               items: controller.selectedItem.value.color
                   .split(',')
                   .map((e) => DropdownMenuItem(
-                        value: e,
-                        child: Text(
-                          e,
-                          style: TextStyle(fontSize: 12),
-                        ),
-                      ))
+                value: e,
+                child: Text(
+                  e,
+                  style: TextStyle(fontSize: 12),
+                ),
+              ))
                   .toList(),
             ),
           ),
 
           SizedBox(
-            height: 30,
+            height: 20,
           ),
           ElevatedButton(
             style: buttonStyle,

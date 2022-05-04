@@ -1,7 +1,7 @@
 {
     "logs": [
         {
-            "outputFile": "/Users/zarnibwar/Desktop/Source Codes/chit cute/build/app/intermediates/incremental/mergeDebugResources/merged.dir/values/values.xml",
+            "outputFile": "/Users/zarnibwar/Desktop/Source Codes/chit cute admin/build/app/intermediates/incremental/mergeDebugResources/merged.dir/values/values.xml",
             "map": [
                 {
                     "source": "/Users/zarnibwar/.gradle/caches/transforms-2/files-2.1/19b3f28125c2b0a4d5f183d50810f00e/cardview-1.0.0/res/values/values.xml",
@@ -76,23 +76,6 @@
                     }
                 },
                 {
-                    "source": "/Users/zarnibwar/Desktop/Source Codes/chit cute/build/app/generated/res/google-services/debug/values/values.xml",
-                    "from": {
-                        "startLines": "2,3,4,5,6,7,8",
-                        "startColumns": "4,4,4,4,4,4,4",
-                        "startOffsets": "55,199,281,385,494,614,707",
-                        "endColumns": "143,81,103,108,119,92,69",
-                        "endOffsets": "194,276,380,489,609,702,772"
-                    },
-                    "to": {
-                        "startLines": "460,462,463,464,465,466,469",
-                        "startColumns": "4,4,4,4,4,4,4",
-                        "startOffsets": "28894,29120,29202,29306,29415,29535,29758",
-                        "endColumns": "143,81,103,108,119,92,69",
-                        "endOffsets": "29033,29197,29301,29410,29530,29623,29823"
-                    }
-                },
-                {
                     "source": "/Users/zarnibwar/.gradle/caches/transforms-2/files-2.1/96707dd89c20df590786ee17a4c8a880/jetified-glide-4.11.0/res/values/values.xml",
                     "from": {
                         "startLines": "2",
@@ -148,6 +131,25 @@
                     }
                 },
                 {
+                    "source": "/Users/zarnibwar/Desktop/Source Codes/chit cute admin/android/app/src/main/res/values/styles.xml",
+                    "from": {
+                        "startLines": "3,14",
+                        "startColumns": "4,4",
+                        "startOffsets": "176,830",
+                        "endLines": "7,16",
+                        "endColumns": "12,12",
+                        "endOffsets": "472,996"
+                    },
+                    "to": {
+                        "startLines": "1646,1651",
+                        "startColumns": "4,4",
+                        "startOffsets": "104538,104835",
+                        "endLines": "1650,1653",
+                        "endColumns": "12,12",
+                        "endOffsets": "104830,104999"
+                    }
+                },
+                {
                     "source": "/Users/zarnibwar/.gradle/caches/transforms-2/files-2.1/955be42cb0286a736ff6d4ee15b76099/jetified-firebase-messaging-23.0.0/res/values/values.xml",
                     "from": {
                         "startLines": "4",
@@ -162,6 +164,23 @@
                         "startOffsets": "29038",
                         "endColumns": "81",
                         "endOffsets": "29115"
+                    }
+                },
+                {
+                    "source": "/Users/zarnibwar/Desktop/Source Codes/chit cute admin/build/app/generated/res/google-services/debug/values/values.xml",
+                    "from": {
+                        "startLines": "2,3,4,5,6,7,8",
+                        "startColumns": "4,4,4,4,4,4,4",
+                        "startOffsets": "55,199,281,385,494,614,707",
+                        "endColumns": "143,81,103,108,119,92,69",
+                        "endOffsets": "194,276,380,489,609,702,772"
+                    },
+                    "to": {
+                        "startLines": "460,462,463,464,465,466,469",
+                        "startColumns": "4,4,4,4,4,4,4",
+                        "startOffsets": "28894,29120,29202,29306,29415,29535,29758",
+                        "endColumns": "143,81,103,108,119,92,69",
+                        "endOffsets": "29033,29197,29301,29410,29530,29623,29823"
                     }
                 },
                 {
@@ -255,25 +274,6 @@
                         "endLines": "295,296,309,310,320,321,337,441,467,468,1561,1564,1567,1573,1579,1588,1595,1598,1607,1610,1615,1625,1635,1639,1645,3354",
                         "endColumns": "75,71,72,71,45,44,43,56,58,70,57,12,12,12,12,12,12,12,12,12,12,12,12,12,12,22",
                         "endOffsets": "17448,17520,18394,18466,19296,19341,20363,26556,29682,29753,100160,100275,100388,100681,101042,101538,101918,102053,102503,102617,102893,103441,103993,104202,104533,213380"
-                    }
-                },
-                {
-                    "source": "/Users/zarnibwar/Desktop/Source Codes/chit cute/android/app/src/main/res/values/styles.xml",
-                    "from": {
-                        "startLines": "3,14",
-                        "startColumns": "4,4",
-                        "startOffsets": "176,830",
-                        "endLines": "7,16",
-                        "endColumns": "12,12",
-                        "endOffsets": "472,996"
-                    },
-                    "to": {
-                        "startLines": "1646,1651",
-                        "startColumns": "4,4",
-                        "startOffsets": "104538,104835",
-                        "endLines": "1650,1653",
-                        "endColumns": "12,12",
-                        "endOffsets": "104830,104999"
                     }
                 }
             ]

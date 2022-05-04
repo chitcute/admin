@@ -1,7 +1,7 @@
 {
     "logs": [
         {
-            "outputFile": "/Users/zarnibwar/Desktop/Source Codes/chit cute/build/app/intermediates/incremental/mergeDebugResources/merged.dir/values-ro/values-ro.xml",
+            "outputFile": "/Users/zarnibwar/Desktop/Source Codes/chit cute admin/build/app/intermediates/incremental/mergeDebugResources/merged.dir/values-ro/values-ro.xml",
             "map": [
                 {
                     "source": "/Users/zarnibwar/.gradle/caches/transforms-2/files-2.1/955be42cb0286a736ff6d4ee15b76099/jetified-firebase-messaging-23.0.0/res/values-ro/values.xml",

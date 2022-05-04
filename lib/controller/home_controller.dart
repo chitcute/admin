@@ -380,7 +380,7 @@ class HomeController extends GetxController {
           townShipNameAndFee["townName"],
           townShipNameAndFee["fee"]
         ],
-        totalPrice: subTotal,
+        totalPrice: subTotal.round(),
       );
       await _database.writePurchaseData(_purchase).then((value) {
         Get.snackbar("လူကြီးမင်း Order တင်ခြင်း", 'အောင်မြင်ပါသည်');
@@ -546,17 +546,16 @@ class HomeController extends GetxController {
         user.value = user.value.update(
           newProfileImage: _profile.data()?['link'],
         );
-        if (user.value.isAdmin) {
-          _database.watchOrder(purchaseCollection).listen((event) {
-            if (event.docs.isEmpty) {
-              _purchcases.clear();
-            } else {
-              _purchcases.value = event.docs
-                  .map((e) => PurchaseModel.fromJson(e.data(), e.id))
-                  .toList();
-            }
-          });
-        }
+
+        _database.watchOrder(purchaseCollection).listen((event) {
+          if (event.docs.isEmpty) {
+            _purchcases.clear();
+          } else {
+            _purchcases.value = event.docs
+                .map((e) => PurchaseModel.fromJson(e.data(), e.id))
+                .toList();
+          }
+        });
       }
     });
   }

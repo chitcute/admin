@@ -25,7 +25,7 @@ class CartView extends StatelessWidget {
       children: [
         Expanded(
           child: Obx(
-            () => ListView.builder(
+                () => ListView.builder(
               itemCount: controller.myCart.length,
               itemBuilder: (_, i) => Card(
                 margin: EdgeInsets.only(top: 10, left: 10, right: 10),
@@ -38,7 +38,7 @@ class CartView extends StatelessWidget {
                       ),
                       child: CachedNetworkImage(
                         imageUrl:
-                            controller.getItem(controller.myCart[i].id).photo,
+                        controller.getItem(controller.myCart[i].id).photo,
                         // "$baseUrl$itemUrl${controller.getItem(controller.myCart[i].id).photo}/get",
                         width: 100,
                         height: 100,
@@ -103,7 +103,7 @@ class CartView extends StatelessWidget {
         GetBuilder<HomeController>(builder: (controller) {
           final deliveryFee = controller.townShipNameAndFee["fee"];
           final showDiscountOrNot =
-              controller.discountPercentage >= 3 ? "လျော့ပြီး" : "";
+          controller.discountPercentage >= 3 ? "လျော့ပြီး" : "";
           return Container(
             width: double.infinity,
             height: 250,
@@ -128,7 +128,7 @@ class CartView extends StatelessWidget {
                       children: [
                         Text(
                           "ပုံမှန် အထည် အတွက် ကျသင့်ငွေ\n"
-                          "${controller.totalUsualProductCount} ခု ၊ ${controller.discountPercentage}% $showDiscountOrNot",
+                              "${controller.totalUsualProductCount} ခု ၊ ${controller.discountPercentage}% $showDiscountOrNot",
                           style: TextStyle(
                             fontSize: 12,
                             fontWeight: FontWeight.w400,
@@ -156,7 +156,7 @@ class CartView extends StatelessWidget {
                       children: [
                         Text(
                           "Promotion အထည် အတွက် ကျသင့်ငွေ\n"
-                          "${controller.totalHotProductCount} ခု ၊ 0% ",
+                              "${controller.totalHotProductCount} ခု ၊ 0% ",
                           style: TextStyle(
                             fontSize: 12,
                             fontWeight: FontWeight.w400,
@@ -215,7 +215,7 @@ class CartView extends StatelessWidget {
                           width: 150,
                           height: 50,
                           child:
-                              GetBuilder<HomeController>(builder: (controller) {
+                          GetBuilder<HomeController>(builder: (controller) {
                             return InkWell(
                               onTap: () {
                                 //Show Dialog
@@ -232,9 +232,9 @@ class CartView extends StatelessWidget {
                                   child: Text(
                                     controller.townShipNameAndFee["townName"] ??
                                         "မြို့နယ်",
-                                style: TextStyle(
-                                fontSize: 12,
-                              ),
+                                    style: TextStyle(
+                                      fontSize: 12,
+                                    ),
                                     maxLines: 1,
                                   ),
                                 ),
@@ -492,25 +492,25 @@ class PaymentOptionContent extends StatelessWidget {
 Widget nextButton() {
   HomeController controller = Get.find();
   return //Next
-      Container(
-    height: 55,
-    width: double.infinity,
-    decoration: BoxDecoration(
-      color: Colors.orange,
-      borderRadius: BorderRadius.only(
-        bottomLeft: Radius.circular(10),
-        bottomRight: Radius.circular(10),
+    Container(
+      height: 55,
+      width: double.infinity,
+      decoration: BoxDecoration(
+        color: Colors.orange,
+        borderRadius: BorderRadius.only(
+          bottomLeft: Radius.circular(10),
+          bottomRight: Radius.circular(10),
+        ),
       ),
-    ),
-    child: TextButton(
-      onPressed: () {
-        if (controller.paymentOptions != PaymentOptions.None) {
-          //Go To CheckOut Screen
-          Navigator.of(Get.context!).pop();
-          Get.toNamed(checkOutScreen);
-        }
-      },
-      child: Text("OK", style: TextStyle(color: Colors.white)),
-    ),
-  );
+      child: TextButton(
+        onPressed: () {
+          if (controller.paymentOptions != PaymentOptions.None) {
+            //Go To CheckOut Screen
+            Navigator.of(Get.context!).pop();
+            Get.toNamed(checkOutScreen);
+          }
+        },
+        child: Text("OK", style: TextStyle(color: Colors.white)),
+      ),
+    );
 }

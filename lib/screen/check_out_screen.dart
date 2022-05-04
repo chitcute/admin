@@ -58,35 +58,37 @@ class _CheckOutScreenState extends State<CheckOutScreen> {
                 )),
             child: Stepper(
               currentStep: controller.checkOutStep.value,
-              controlsBuilder: (context, {onStepCancel, onStepContinue}) {
+              controlsBuilder: (context,
+                  {void Function()? onStepCancel,
+                    void Function()? onStepContinue}) {
                 return controller.checkOutStep.value == 1
                     ? ElevatedButton(
-                        onPressed: () async {
-                          //TODO: TOSUBMIT ORDER
-                          if ((controller.paymentOptions !=
-                                  PaymentOptions.None) &&
-                              (controller.paymentOptions ==
-                                  PaymentOptions.CashOnDelivery)) {
-                            //First we need to set Image to null
-                            controller.setBankSlipImage('');
-                            await controller.proceedToPay();
-                          } else if ((controller.paymentOptions !=
-                                  PaymentOptions.None) &&
-                              (controller.paymentOptions ==
-                                  PaymentOptions.PrePay) &&
-                              (controller.bankSlipImage.isNotEmpty)) {
-                            //First we need to set Image to null
-                            await controller.proceedToPay();
-                          } else {
-                            debugPrint("Noting do....................");
-                          }
-                        },
-                        child: Center(
-                          child: Text(
-                            "Submit Order",
-                          ),
-                        ),
-                      )
+                  onPressed: () async {
+                    //TODO: TOSUBMIT ORDER
+                    if ((controller.paymentOptions !=
+                        PaymentOptions.None) &&
+                        (controller.paymentOptions ==
+                            PaymentOptions.CashOnDelivery)) {
+                      //First we need to set Image to null
+                      controller.setBankSlipImage('');
+                      await controller.proceedToPay();
+                    } else if ((controller.paymentOptions !=
+                        PaymentOptions.None) &&
+                        (controller.paymentOptions ==
+                            PaymentOptions.PrePay) &&
+                        (controller.bankSlipImage.isNotEmpty)) {
+                      //First we need to set Image to null
+                      await controller.proceedToPay();
+                    } else {
+                      debugPrint("Noting do....................");
+                    }
+                  },
+                  child: Center(
+                    child: Text(
+                      "Order တင်မည်",
+                    ),
+                  ),
+                )
                     : SizedBox(height: 0, width: 0);
               },
               onStepTapped: (index) => controller.changeStepIndex(index),
@@ -125,7 +127,7 @@ Widget prePayWidget(BuildContext context) {
     height: 400,
     child: ListView(
       children: [
-        SizedBox(height: 20),
+        SizedBox(height: 10),
         Row(
           mainAxisAlignment: MainAxisAlignment.start,
           children: [
@@ -145,7 +147,7 @@ Widget prePayWidget(BuildContext context) {
               mainAxisAlignment: MainAxisAlignment.start,
               children: [
                 Text(
-                  " U Thant Zin Win (KBZ Pay)",
+                  " U Thant Zin Win",
                   style: TextStyle(
                     fontSize: 16,
                   ),
@@ -189,7 +191,7 @@ Widget prePayWidget(BuildContext context) {
               mainAxisAlignment: MainAxisAlignment.start,
               children: [
                 Text(
-                  " U Thant Zin Win (KBZ Bank)",
+                  " U Thant Zin Win",
                   style: TextStyle(
                     fontSize: 16,
                   ),
@@ -201,7 +203,7 @@ Widget prePayWidget(BuildContext context) {
                   ),
                   onPressed: () {
                     Clipboard.setData(
-                            new ClipboardData(text: "23030206000037201"))
+                        new ClipboardData(text: "23030206000037201"))
                         .then((_) {
                       ScaffoldMessenger.of(context).showSnackBar(SnackBar(
                           content: Text(
@@ -234,7 +236,7 @@ Widget prePayWidget(BuildContext context) {
               mainAxisAlignment: MainAxisAlignment.start,
               children: [
                 Text(
-                  "  U Thant Zin Win (AYA Bank)",
+                  "  U Thant Zin Win",
                   style: TextStyle(
                     fontSize: 16,
                   ),
@@ -265,17 +267,17 @@ Widget prePayWidget(BuildContext context) {
             OutlinedButton(
               style: ElevatedButton.styleFrom(
                   shape: RoundedRectangleBorder(
-                side: BorderSide(color: Colors.black, width: 2),
-                borderRadius: BorderRadius.all(
-                  Radius.circular(20),
-                ),
-              )),
+                    side: BorderSide(color: Colors.black, width: 2),
+                    borderRadius: BorderRadius.all(
+                      Radius.circular(20),
+                    ),
+                  )),
               onPressed: () => getBankSlip(controller),
-              child: Text("Choose Bank Slip"),
+              child: Text("KBZ Pay / KBZ / AYA Screenshot"),
             ),
             //Image String
             Obx(
-              () => SizedBox(
+                  () => SizedBox(
                 height: 50,
                 width: size.width,
                 child: Row(children: [
@@ -291,15 +293,15 @@ Widget prePayWidget(BuildContext context) {
                   ),
                   controller.bankSlipImage.value.isNotEmpty
                       ? SizedBox(
-                          width: 50,
-                          child: IconButton(
-                            onPressed: () => controller.setBankSlipImage(""),
-                            icon: Icon(
-                              FontAwesomeIcons.times,
-                              color: Colors.black,
-                            ),
-                          ),
-                        )
+                    width: 50,
+                    child: IconButton(
+                      onPressed: () => controller.setBankSlipImage(""),
+                      icon: Icon(
+                        FontAwesomeIcons.times,
+                        color: Colors.black,
+                      ),
+                    ),
+                  )
                       : SizedBox(height: 0, width: 0),
                 ]),
               ),
@@ -315,7 +317,7 @@ Widget prePayWidget(BuildContext context) {
 getBankSlip(HomeController controller) async {
   try {
     final XFile? image =
-        await ImagePicker().pickImage(source: ImageSource.gallery);
+    await ImagePicker().pickImage(source: ImageSource.gallery);
     controller.setBankSlipImage(image!.path);
   } catch (e) {
     debugPrint("Error Bank Slip Image Picking");
@@ -379,7 +381,7 @@ class _FormWidgetState extends State<FormWidget> {
               child: TextFormField(
                 controller: nameController,
                 validator: (e) =>
-                    e?.isEmpty == true ? "Name is required" : null,
+                e?.isEmpty == true ? "Name is required" : null,
                 decoration: InputDecoration(
                   border: OutlineInputBorder(),
                   hintText: 'အမည်',
@@ -391,7 +393,7 @@ class _FormWidgetState extends State<FormWidget> {
               child: TextFormField(
                 controller: phoneController,
                 validator: (e) =>
-                    e?.isEmpty == true ? "Phone is required" : null,
+                e?.isEmpty == true ? "Phone is required" : null,
                 keyboardType: TextInputType.number,
                 decoration: InputDecoration(
                   border: OutlineInputBorder(),
@@ -404,7 +406,7 @@ class _FormWidgetState extends State<FormWidget> {
               child: TextFormField(
                 controller: addressController,
                 validator: (e) =>
-                    e?.isEmpty == true ? "Address is required" : null,
+                e?.isEmpty == true ? "Address is required" : null,
                 decoration: InputDecoration(
                   border: OutlineInputBorder(),
                   hintText: 'ပို့ဆောင်ပေးရမည့် လိပ်စာ',
@@ -422,7 +424,7 @@ class _FormWidgetState extends State<FormWidget> {
                 ),
               ),
             ),
-            
+
             Container(
               width: double.infinity,
               height: 50,
@@ -434,11 +436,11 @@ class _FormWidgetState extends State<FormWidget> {
                     //TODO: TO SAVE OR NOT INTO DATABASE
                     await controller
                         .setUserOrderData(
-                          name: nameController.text,
-                          email: emailController.text,
-                          phone: phoneController.text,
-                          address: addressController.text,
-                        )
+                      name: nameController.text,
+                      email: emailController.text,
+                      phone: phoneController.text,
+                      address: addressController.text,
+                    )
                         .then((value) => controller.changeStepIndex(1));
                     //Store into UserOrderData
 
@@ -447,7 +449,7 @@ class _FormWidgetState extends State<FormWidget> {
                     Get.snackbar("လူကြီးမင်း Order တင်ခြင်း", 'အောင်မြင်ပါသည်');*/
                   }
                 },
-                child: Text('Save'),
+                child: Text('သိမ်းထားမည်'),
               ),
             ),
           ],

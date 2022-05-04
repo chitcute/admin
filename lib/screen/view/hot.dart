@@ -31,7 +31,7 @@ class HotView extends StatelessWidget {
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 Padding(
-                  padding: const EdgeInsets.only(left: 20),
+                  padding: const EdgeInsets.only(left: 10),
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
@@ -41,10 +41,6 @@ class HotView extends StatelessWidget {
                           fontSize: 16,
                           fontWeight: FontWeight.w700,
                         ),
-                      ),
-
-                      SizedBox(
-                        height: 10,
                       ),
 
                       Row(
@@ -63,11 +59,7 @@ class HotView extends StatelessWidget {
                   ),
                 ),
 
-
-
-                Padding(
-                  padding: const EdgeInsets.only(left: 20),
-                  child: Column(
+                  Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Text(
@@ -94,13 +86,9 @@ class HotView extends StatelessWidget {
 
                     ],
                   ),
-                ),
 
                 ClipRRect(
-                  borderRadius: BorderRadius.only(
-                    topRight: Radius.circular(6),
-                    bottomRight: Radius.circular(6),
-                  ),
+                  borderRadius: BorderRadius.circular(5),
                   child: CachedNetworkImage(
                     imageUrl: controller.hot()[i].photo,
                     // "$baseUrl$itemUrl${controller.hot()[i].photo}/get",

@@ -57,9 +57,6 @@ final List<Division> divisionList = [
     },
   ),
 
-
-
-
   Division(
     name: "နယ်ဝေး",
     townShipMap: {
